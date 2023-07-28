@@ -2,9 +2,19 @@
 ComfyUI extra nodes. Mostly prompt parsing
 
 # Installation
-Juat put hakkun_nodes.py into ComfyUI\custom_nodes
+Just put hakkun_nodes.py into ComfyUI\custom_nodes
 
 Drag and drop ```prompt parser example_workflow.png``` into ComfyUI to check use example for all nodes.
+
+Used other custom nodes in example:
+
+quality of life
+
+https://github.com/omar92/ComfyUI-QualityOfLifeSuit_Omar92
+
+ComfyUI-Custom-Scripts
+
+https://github.com/pythongosssss/ComfyUI-Custom-Scripts
 
 # Custom nodes
 
