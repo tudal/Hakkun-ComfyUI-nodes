@@ -22,7 +22,7 @@ All nodes can be found in "Hakkun" category.
 
 ## Prompt parser
 
-![image](https://github.com/tudal/Hakkun-ComfyUI-nodes/assets/799063/3ff89cc3-bafd-4c2e-ac0c-f4afefc03d6a)
+![image](https://github.com/tudal/Hakkun-ComfyUI-nodes/assets/799063/c31f7513-ea33-4537-a32a-ca2a74f76804)
 
 Allows you to write whole positive and negative prompt in one text field.
 
@@ -47,7 +47,7 @@ You can modify the default 50% chance by specifying different percentages after 
 ```
 ?20% explosion
 ```
-This will give you a 20% chance to include the word 'explosion'."
+This will give you a 20% chance to include the word 'explosion'.
 
 
 To randomly select from a list, use this format:
@@ -87,7 +87,7 @@ If a line starts with ```^```, everything after that symbol and the **next lines
 
 You can set the ```seed``` as an input to control randomness along with the rest of the workflow.
 
-Using the ```debug``` output will provide you with all the information about the generated prompt."
+Using the ```debug``` output will provide you with all the information about the generated prompt.
 
 
 ## Multi Text Merge
