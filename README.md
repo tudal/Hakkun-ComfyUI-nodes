@@ -73,7 +73,7 @@ If a weight is not specified for an element, the default weight of 100 will be u
 
 This also works with nested elements:
 ```
-[[*10*pink|blue] bedroom|*30*city at [day|night] with [cars|trains|rockets]]
+[[*10*pink|blue] bedroom*30*|*120*city at [day|*150*night] with [cars|trains|*10*rockets]]
 ```
 In this example, a pink bedroom will be very rare.
 
