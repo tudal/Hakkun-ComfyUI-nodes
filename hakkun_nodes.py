@@ -92,14 +92,9 @@ class RandomLine4:
     CATEGORY = "Hakkun"
 
     def get_random_line(self, textt, seed):
-        # Split the multiline string into lines
         lines = textt.splitlines()
-
         random.seed(seed)
-
-        # Choose a random line from the list of lines
         random_line = random.choice(lines)
-
         return random_line
 
     def get_random_line4(self, seed, delimiter, text1='', text2='', text3='', text4=''):
@@ -110,6 +105,8 @@ class RandomLine4:
         if len(text2) > 0: texts.append(get_random_line(text2,seed))
         if len(text3) > 0: texts.append(get_random_line(text3,seed))
         if len(text4) > 0: texts.append(get_random_line(text4,seed))
+
+        delimiter = delimiter.replace("\\n", "\n")
 
         text = delimiter.join(texts)
 
@@ -259,6 +256,8 @@ class PromptParser:
 
     def process_extra(self, text, placeholder, extra=None):
         if extra is None:
+            if placeholder in text:
+                return text.replace(placeholder, '')
             return text
         if placeholder in text:
             return text.replace(placeholder, extra)
@@ -362,25 +361,6 @@ class ImageSizeToString:
 
         return size,
 
-class ShowImageSize:
-    @classmethod
-    def INPUT_TYPES(s):
-        return {"required": {
-            "image": ("IMAGE",),
-        }}
-
-    RETURN_TYPES = ("STRING",)
-    FUNCTION = "notify"
-    OUTPUT_NODE = True
-
-    CATEGORY = "Hakkun"
-
-    def notify(self, image):
-        # imagee = tensor2pil(image[0])
-        # img_width = imagee.size[0]
-        # img_height = imagee.size[1]
-        text = 'YOOOOOOOOOOOOOOOOOOOOO'
-        return {"ui": {"text": text}, "result": text}
 
 NODE_CLASS_MAPPINGS = {
     "Multi Text Merge": MultiTextMerge,
@@ -390,22 +370,3 @@ NODE_CLASS_MAPPINGS = {
     "Calculate Upscale": CalculateUpscale,
     "Image size to string": ImageSizeToString,
 }
-
-
-# Test cases
-# print(test("[45%]purple")) # 0.45
-# print(test("[75%]orange")) # 0.75
-# print(test("[100%]blue"))  # 1.0
-# print(test("yellow"))      # None
-# print(test("[30%]"))      # 0.3
-
-# def test(input):
-#     print(select_random(input))
-#
-# test("I like [apple|banana|cherry]");
-# test("[Hello world|Hi|Hey] there, [how are you?|what's up?]");
-# test("I went there with [a [fast|slow] [car|boat]|an [expensive|cheap] [car|boat]]");
-# test("This is a [test]");
-# test("The [quick|lazy] [dog|fox] jumps [over|under] the [brown|black] [fence|wall].");
-# test("Empty options: [].");
-
