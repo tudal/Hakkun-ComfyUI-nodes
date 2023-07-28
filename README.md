@@ -40,52 +40,55 @@ negative: ```drawing, painting```
 
 All lines starting with ```!``` will be ignored.
 
-All lines starting with ```?``` will be randomly ignored with 50% chance.
+All lines starting with `?` will be randomly ignored with a default 50% chance.
 
-You can modify default 50% chance by adding percentages after ```?```.
+You can modify the default 50% chance by specifying different percentages after `?`.
+
 ```
 ?20% explosion
 ```
-Will give you 20% chances to include ```explosion```
+This will give you a 20% chance to include the word 'explosion'."
 
-To select random from list you can use this format:
+
+To randomly select from a list, use this format:
 ```
 [dog|cat|horse]
 ```
-You can nest those on multiple levels:
+
+You can nest these lists on multiple levels:
 ```
 [town|city] full of [[fast|slow] [cars|[bicycles|motorbikes]]|[[loud|cute] [horses|[ducks|chickens]]]]
 ```
-Will get you sentences like:
+This will generate sentences like:
 ```
 town full of cute horses
 city full of fast bicycles
 ```
 
-To adjust the chances of selecting each element separately, you can assign weights by using the following format:
+To adjust the chances of selecting each element separately, assign weights using the following format:
 ```
-[*150*car|boat*30*|train|bi*80*ke]
+[*150*car|*30*boat|train|*80*bike]
 ```
-```train``` dont have weight specified so default 100 will be used.
-Weight can be put anywhere.
+If a weight is not specified for an element, the default weight of 100 will be used. Weights can be placed anywhere within the elements.
 
-
-This works also with nested elements:
+This also works with nested elements:
 ```
-[[*10*pink|blue] bedroom*30*|*200*city at [day|night] with [cars|trains|rockets]]
+[[*10*pink|blue] bedroom|*30*city at [day|night] with [cars|trains|rockets]]
 ```
-In this example pink bedroom will be very rare.
+In this example, a pink bedroom will be very rare.
 
-There's also option to insert external text in ```extra1```, ```extra1``` options.
-Put ```<extra1>``` and/or ```<extra2>``` anywhere in prompt and it will be pasted before partsing. If you dont specify those triggers but provide text then it will be pasted at beginning (as positive).
+"There's also the option to insert external text in ```<extra1>``` or ```<extra2>``` placeholders.
 
-All ```em:``` will be replaced to ```embedding:```
+Include ```<extra1>``` and/or ```<extra2>``` anywhere in the prompt, and the provided text will be inserted before parsing. If you don't specify these triggers but provide text, it will be pasted at the beginning by default (as positive).
 
-If line is starting with ```^``` everything after that and **next lines** be ignored.
+All occurrences of ```em:``` will be replaced with ```embedding:```.
 
-Set ```seed``` as input to control randomness together with rest of workflow.
+If a line starts with ```^```, everything after that symbol and the **next lines** will be ignored.
 
-```debug``` output will give you all information about generated prompt
+You can set the ```seed``` as an input to control randomness along with the rest of the workflow.
+
+Using the ```debug``` output will provide you with all the information about the generated prompt."
+
 
 ## Multi Text Merge
 Allows to join multiple texts by specified delimiter. Put ```\n``` to use new line as delimiter.
