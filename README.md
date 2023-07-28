@@ -77,7 +77,7 @@ This also works with nested elements:
 ```
 In this example, a pink bedroom will be very rare.
 
-"There's also the option to insert external text in ```<extra1>``` or ```<extra2>``` placeholders.
+There's also the option to insert external text in ```<extra1>``` or ```<extra2>``` placeholders.
 
 Include ```<extra1>``` and/or ```<extra2>``` anywhere in the prompt, and the provided text will be inserted before parsing. If you don't specify these triggers but provide text, it will be pasted at the beginning by default (as positive).
 
