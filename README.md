@@ -92,26 +92,33 @@ Using the ```debug``` output will provide you with all the information about the
 
 ## Multi Text Merge
 ![image](https://github.com/tudal/Hakkun-ComfyUI-nodes/assets/799063/fbb83cf9-a715-45bd-b50e-ce1f9a6e9a21)
+
 Allows to join multiple texts by specified delimiter. Put ```\n``` to use new line as delimiter.
 No need to keep any order. Empty inputs will be ignored.
 
 ## Random Line
 ![image](https://github.com/tudal/Hakkun-ComfyUI-nodes/assets/799063/4f1575e9-06db-459a-b06d-b7608588d006)
+
 Will output random line
 
 ## Random Line 4
 ![image](https://github.com/tudal/Hakkun-ComfyUI-nodes/assets/799063/8b6a5936-d56b-4fc0-8b0f-6b7453219f26)
+
 Will output random lines from 4 textfields/inputs and join them by specified delimiter. Put ```\n``` to use new line as delimiter.
 
 ## Calculate Upscale
 ![image](https://github.com/tudal/Hakkun-ComfyUI-nodes/assets/799063/86b0e0b0-70b8-4f69-aba7-beb246f7a6b9)
+
 Outputs target upscale float value based on input image height.
 Also calculates tile size (with and height) for tools like UltimateSDUpscale by specified number of horizontal tiles.
 
 ## Image size to string
 ![image](https://github.com/tudal/Hakkun-ComfyUI-nodes/assets/799063/81dc5d21-f726-45f8-8d46-2ec17d16a6b7)
+
 Outputs input image size in format: ```512x768```
 
 ## Any Converter
 ![image](https://github.com/tudal/Hakkun-ComfyUI-nodes/assets/799063/c3281a50-8873-4dd5-8f01-8ba347c0874c)
+
+Universal primitive type converter. If string cant be number it wil be 0
 
