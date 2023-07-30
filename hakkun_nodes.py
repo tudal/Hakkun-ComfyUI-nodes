@@ -361,6 +361,58 @@ class ImageSizeToString:
 
         return size,
 
+class AnyConverter:
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {},
+            "optional": {
+                "int_": ("INT", {"forceInput": True}),
+                "float_": ("FLOAT", {"forceInput": True}),
+                "number_": ("NUMBER", {"forceInput": True}),
+                "string_": (TEXT_TYPE, {"forceInput": True}),
+                "seed_": ("SEED", ),
+            }
+        }
+
+    RETURN_TYPES = ("INT", "FLOAT", "NUMBER", TEXT_TYPE, "SEED")
+    FUNCTION = "convert"
+    CATEGORY = "Hakkun"
+
+    def string_to_int(self, s):
+        try:
+            return int(float(s))
+        except (ValueError, TypeError):
+            return 0
+
+    def string_to_number(self, s):
+        try:
+            return float(s)
+        except (ValueError, TypeError):
+            return 0.0
+
+    def convert(self, int_=None, float_=None, number_=None, string_=None, seed_=None):
+        if int_ is not None:
+            value=int_
+        elif float_ is not None:
+            value=float_
+        elif number_ is not None:
+            value=number_
+        elif string_ is not None:
+            return (self.string_to_int(string_),
+                    self.string_to_number(string_),
+                    self.string_to_number(string_),
+                    string_,
+                    {"seed":self.string_to_int(string_), },)
+        elif seed_ is not None:
+            value=seed_.get('seed')
+        else:
+            value=0
+        return int(value),float(value),float(value),str(value),{"seed":int(value), }
+
 
 NODE_CLASS_MAPPINGS = {
     "Multi Text Merge": MultiTextMerge,
@@ -369,4 +421,5 @@ NODE_CLASS_MAPPINGS = {
     "Prompt Parser": PromptParser,
     "Calculate Upscale": CalculateUpscale,
     "Image size to string": ImageSizeToString,
+    "Any Converter": AnyConverter,
 }
