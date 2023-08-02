@@ -9,13 +9,7 @@ Also avaliable to install by Manager - https://github.com/ltdrdata/ComfyUI-Manag
 
 Drag and drop ```hakkun_nodes_workflow.png``` into ComfyUI to check use example for all nodes.
 
-Other custom nodes used in example:
-
-quality of life
-
-https://github.com/omar92/ComfyUI-QualityOfLifeSuit_Omar92
-
-ComfyUI-Custom-Scripts
+Example is using ComfyUI-Custom-Scripts
 
 https://github.com/pythongosssss/ComfyUI-Custom-Scripts
 
