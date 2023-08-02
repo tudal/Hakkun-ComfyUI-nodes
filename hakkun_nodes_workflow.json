@@ -1,0 +1,1860 @@
+{
+  "last_node_id": 71,
+  "last_link_id": 125,
+  "nodes": [
+    {
+      "id": 40,
+      "type": "Text Multiline",
+      "pos": [
+        20,
+        260
+      ],
+      "size": {
+        "0": 404.714599609375,
+        "1": 109.89520263671875
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            64
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "title": "style1",
+      "properties": {
+        "Node name for S&R": "Text Multiline"
+      },
+      "widgets_values": [
+        "style1POS @ style1NEG"
+      ]
+    },
+    {
+      "id": 42,
+      "type": "Text Multiline",
+      "pos": [
+        20,
+        420
+      ],
+      "size": {
+        "0": 404.714599609375,
+        "1": 109.89520263671875
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            65
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "title": "style2",
+      "properties": {
+        "Node name for S&R": "Text Multiline"
+      },
+      "widgets_values": [
+        "style2POS\n@ style2NEG1, style2NEG2"
+      ]
+    },
+    {
+      "id": 32,
+      "type": "PreviewImage",
+      "pos": [
+        1770,
+        950
+      ],
+      "size": {
+        "0": 609.8162841796875,
+        "1": 655.5281372070312
+      },
+      "flags": {},
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 54
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    },
+    {
+      "id": 31,
+      "type": "VAEDecode",
+      "pos": [
+        1540,
+        950
+      ],
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 52
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 92
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            54,
+            70,
+            78
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      }
+    },
+    {
+      "id": 60,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        21,
+        958
+      ],
+      "size": {
+        "0": 437.35968017578125,
+        "1": 98
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            93
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            88,
+            89
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            92
+          ],
+          "shape": 3,
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "photon_v1.safetensors"
+      ]
+    },
+    {
+      "id": 58,
+      "type": "CLIPTextEncode",
+      "pos": [
+        766,
+        798
+      ],
+      "size": {
+        "0": 210,
+        "1": 54
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 88
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 86,
+          "widget": {
+            "name": "text",
+            "config": [
+              "STRING",
+              {
+                "multiline": true
+              }
+            ]
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            91
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 59,
+      "type": "CLIPTextEncode",
+      "pos": [
+        757,
+        904
+      ],
+      "size": {
+        "0": 210,
+        "1": 54
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 89
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 87,
+          "widget": {
+            "name": "text",
+            "config": [
+              "STRING",
+              {
+                "multiline": true
+              }
+            ]
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            90
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 61,
+      "type": "EmptyLatentImage",
+      "pos": [
+        724,
+        1066
+      ],
+      "size": {
+        "0": 315,
+        "1": 106
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            95
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyLatentImage"
+      },
+      "widgets_values": [
+        512,
+        512,
+        1
+      ]
+    },
+    {
+      "id": 44,
+      "type": "Text Multiline",
+      "pos": [
+        20,
+        580
+      ],
+      "size": {
+        "0": 404.714599609375,
+        "1": 109.89520263671875
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "title": "style3",
+      "properties": {
+        "Node name for S&R": "Text Multiline"
+      },
+      "widgets_values": [
+        "style3POS"
+      ]
+    },
+    {
+      "id": 37,
+      "type": "Random Line",
+      "pos": [
+        201,
+        78
+      ],
+      "size": {
+        "0": 210,
+        "1": 137.49395751953125
+      },
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "seed",
+          "type": "INT",
+          "link": 118,
+          "widget": {
+            "name": "seed",
+            "config": [
+              "INT",
+              {
+                "default": 0,
+                "min": 0,
+                "max": 18446744073709552000
+              }
+            ]
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            63
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Random Line"
+      },
+      "widgets_values": [
+        "[cute|sweet]\n[scary|creepy]\nsmall\ngigantic",
+        450,
+        "increment"
+      ]
+    },
+    {
+      "id": 34,
+      "type": "ShowText|pysssss",
+      "pos": [
+        1647,
+        230
+      ],
+      "size": {
+        "0": 541.1510620117188,
+        "1": 602.2723999023438
+      },
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 57
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "title": "prompt parser debug",
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "POSITIVE:\nsmall, style1POS, style2POS, venus, sunny, city full of cute ducks, isometric city at day with rockets, futuristic, highly detailed, render_with_blender, cutaway box, 3d render cgi\n\nNEGATIVE:\nstyle1NEG, style2NEG1, style2NEG2, embedding:CyberRealistic_Negative-neg, drawing painting anime cartoon, (low quality:1.4), (worst quality:1.4)\n\nseed:1117312181678453\n\nextra1:small\nstyle1POS @ style1NEG\nstyle2POS\n@ style2NEG1, style2NEG2\nvenus\nsunny\nextra2:@em:CyberRealistic_Negative-neg\n!@em:ng_deepnegative_v1_75t\n\nRAW:\nsmall\nstyle1POS @ style1NEG\nstyle2POS\n@ style2NEG1, style2NEG2\nvenus\nsunny, [town|city] full of [[fast|slow] [cars|[bicycles|motorbikes]]|[[loud|cute] [horses|[ducks|chickens]]]]\n\n\nisometric [[*10*pink|blue] bedroom*25*|city at [day|night] with [cars|*100*trains|rockets*300*]], , \n\n, ,,,,\n\n\n! ignored positive prompt\n! @ ignored negative prompt\n\n[*20*fantasy | *20*cyberpunk | *20*alien | *300*futuristic]\n\nhighly detailed, render_with_blender\n\n?cutaway box\n\n?20% (explosion:1.2)\n\n@em:CyberRealistic_Negative-neg\n!@em:ng_deepnegative_v1_75t\n  \n3d render cgi @ drawing painting anime cartoon\n\n@ (low quality:1.4), (worst quality:1.4)\n\n\n^\n\neverything after ^ as first in line\nwill\nbe\nignored"
+      ]
+    },
+    {
+      "id": 49,
+      "type": "PreviewImage",
+      "pos": [
+        2406,
+        953
+      ],
+      "size": {
+        "0": 830.8914184570312,
+        "1": 864.346435546875
+      },
+      "flags": {},
+      "order": 30,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 74
+        }
+      ],
+      "title": "upscaled",
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    },
+    {
+      "id": 39,
+      "type": "Text Multiline",
+      "pos": [
+        630,
+        571
+      ],
+      "size": {
+        "0": 404.714599609375,
+        "1": 109.89520263671875
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            108
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Text Multiline"
+      },
+      "widgets_values": [
+        "@em:CyberRealistic_Negative-neg\n!@em:ng_deepnegative_v1_75t"
+      ]
+    },
+    {
+      "id": 41,
+      "type": "Multi Text Merge",
+      "pos": [
+        730,
+        270
+      ],
+      "size": {
+        "0": 315,
+        "1": 158
+      },
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "s1",
+          "type": "STRING",
+          "link": 63
+        },
+        {
+          "name": "s2",
+          "type": "STRING",
+          "link": 64
+        },
+        {
+          "name": "s3",
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "name": "s4",
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "name": "s5",
+          "type": "STRING",
+          "link": 65
+        },
+        {
+          "name": "s6",
+          "type": "STRING",
+          "link": 66
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            109
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Multi Text Merge"
+      },
+      "widgets_values": [
+        "\\n"
+      ]
+    },
+    {
+      "id": 50,
+      "type": "Reroute",
+      "pos": [
+        2434,
+        867
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 28,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 110
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "IMAGE",
+          "links": [
+            74,
+            77
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 65,
+      "type": "Seed",
+      "pos": [
+        7,
+        774
+      ],
+      "size": {
+        "0": 315,
+        "1": 82
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "SEED",
+          "type": "SEED",
+          "links": [
+            111
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Seed"
+      },
+      "widgets_values": [
+        430974221920813,
+        "randomize"
+      ]
+    },
+    {
+      "id": 62,
+      "type": "Reroute",
+      "pos": [
+        513,
+        338
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 116
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "INT",
+          "links": [
+            117,
+            118,
+            119
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 30,
+      "type": "KSampler",
+      "pos": [
+        1200,
+        950
+      ],
+      "size": {
+        "0": 315,
+        "1": 262
+      },
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 93
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 91
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 90
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 95,
+          "slot_index": 3
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "link": 120,
+          "widget": {
+            "name": "seed",
+            "config": [
+              "INT",
+              {
+                "default": 0,
+                "min": 0,
+                "max": 18446744073709552000
+              }
+            ]
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            52
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        377,
+        "fixed",
+        20,
+        6,
+        "dpmpp_2m",
+        "karras",
+        1
+      ]
+    },
+    {
+      "id": 38,
+      "type": "Prompt Parser",
+      "pos": [
+        1136,
+        271
+      ],
+      "size": {
+        "0": 388.32147216796875,
+        "1": 485.9686584472656
+      },
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "extra1",
+          "type": "STRING",
+          "link": 109
+        },
+        {
+          "name": "extra2",
+          "type": "STRING",
+          "link": 108,
+          "slot_index": 1
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "link": 119,
+          "widget": {
+            "name": "seed",
+            "config": [
+              "INT",
+              {
+                "default": 0,
+                "min": 0,
+                "max": 18446744073709552000
+              }
+            ]
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "STRING",
+          "links": [
+            86
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "negative",
+          "type": "STRING",
+          "links": [
+            87
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "debug",
+          "type": "STRING",
+          "links": [
+            57
+          ],
+          "shape": 3,
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Prompt Parser"
+      },
+      "widgets_values": [
+        "[town|city] full of [[fast|slow] [cars|[bicycles|motorbikes]]|[[loud|cute] [horses|[ducks|chickens]]]]\n\n\nisometric [[*10*pink|blue] bedroom*25*|city at [day|night] with [cars|*100*trains|rockets*300*]], , \n\n, ,,,,\n\n\n! ignored positive prompt\n! @ ignored negative prompt\n\n[*20*fantasy | *20*cyberpunk | *20*alien | *300*futuristic]\n\nhighly detailed, render_with_blender\n\n?cutaway box\n\n?20% (explosion:1.2)\n\n<extra2>\n  \n3d render cgi @ drawing painting anime cartoon\n\n@ (low quality:1.4), (worst quality:1.4)\n\n\n^\n\neverything after ^ as first in line\nwill\nbe\nignored",
+        730952447365608,
+        "randomize"
+      ]
+    },
+    {
+      "id": 43,
+      "type": "Random Line 4",
+      "pos": [
+        557,
+        -135
+      ],
+      "size": {
+        "0": 261.4070129394531,
+        "1": 293.948486328125
+      },
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "seed",
+          "type": "INT",
+          "link": 117,
+          "widget": {
+            "name": "seed",
+            "config": [
+              "INT",
+              {
+                "default": 0,
+                "min": 0,
+                "max": 18446744073709552000
+              }
+            ]
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            66,
+            101
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Random Line 4"
+      },
+      "widgets_values": [
+        "mars\nearth\nvenus",
+        "",
+        "rain\nsunny",
+        "",
+        631919549851756,
+        "randomize",
+        "\\n"
+      ]
+    },
+    {
+      "id": 63,
+      "type": "ShowText|pysssss",
+      "pos": [
+        853,
+        68
+      ],
+      "size": {
+        "0": 210,
+        "1": 76
+      },
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 101
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "venus\nsunny"
+      ]
+    },
+    {
+      "id": 67,
+      "type": "Note",
+      "pos": [
+        1650,
+        78
+      ],
+      "size": {
+        "0": 514.4496459960938,
+        "1": 101.7145767211914
+      },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "This workflow is using ComfyUI-Custom-Scripts also\nhttps://github.com/pythongosssss/ComfyUI-Custom-Scripts"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 66,
+      "type": "Any Converter",
+      "pos": [
+        357,
+        761
+      ],
+      "size": {
+        "0": 210,
+        "1": 106
+      },
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "int_",
+          "type": "INT",
+          "link": null
+        },
+        {
+          "name": "float_",
+          "type": "FLOAT",
+          "link": null
+        },
+        {
+          "name": "number_",
+          "type": "NUMBER",
+          "link": null
+        },
+        {
+          "name": "string_",
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "name": "seed_",
+          "type": "SEED",
+          "link": 111
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            116,
+            120
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "NUMBER",
+          "type": "NUMBER",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "SEED",
+          "type": "SEED",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Any Converter"
+      }
+    },
+    {
+      "id": 54,
+      "type": "ShowText|pysssss",
+      "pos": [
+        2790,
+        836
+      ],
+      "size": {
+        "0": 210,
+        "1": 76
+      },
+      "flags": {},
+      "order": 33,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 81
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "512x512 to 1280x1280"
+      ]
+    },
+    {
+      "id": 52,
+      "type": "Image size to string",
+      "pos": [
+        2296,
+        729
+      ],
+      "size": {
+        "0": 210,
+        "1": 26
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 24,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 78,
+          "slot_index": 0
+        }
+      ],
+      "outputs": [
+        {
+          "name": "size",
+          "type": "STRING",
+          "links": [
+            123
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Image size to string"
+      }
+    },
+    {
+      "id": 51,
+      "type": "Image size to string",
+      "pos": [
+        2299,
+        812
+      ],
+      "size": {
+        "0": 210,
+        "1": 26
+      },
+      "flags": {},
+      "order": 31,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 77
+        }
+      ],
+      "outputs": [
+        {
+          "name": "size",
+          "type": "STRING",
+          "links": [
+            125
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Image size to string"
+      }
+    },
+    {
+      "id": 53,
+      "type": "Multi Text Merge",
+      "pos": [
+        2544,
+        775
+      ],
+      "size": {
+        "0": 315,
+        "1": 158
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 32,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "s1",
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "name": "s2",
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "name": "s3",
+          "type": "STRING",
+          "link": 123
+        },
+        {
+          "name": "s4",
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "name": "s5",
+          "type": "STRING",
+          "link": 125
+        },
+        {
+          "name": "s6",
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            81
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Multi Text Merge"
+      },
+      "widgets_values": [
+        " to "
+      ]
+    },
+    {
+      "id": 47,
+      "type": "Upscale Model Loader",
+      "pos": [
+        2334,
+        255
+      ],
+      "size": {
+        "0": 315,
+        "1": 78
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "UPSCALE_MODEL",
+          "type": "UPSCALE_MODEL",
+          "links": [
+            69
+          ],
+          "shape": 3
+        },
+        {
+          "name": "MODEL_NAME_TEXT",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Upscale Model Loader"
+      },
+      "widgets_values": [
+        "4x-UltraSharp.pth"
+      ]
+    },
+    {
+      "id": 46,
+      "type": "ImageUpscaleWithModel",
+      "pos": [
+        2362,
+        370
+      ],
+      "size": {
+        "0": 241.79998779296875,
+        "1": 46
+      },
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "upscale_model",
+          "type": "UPSCALE_MODEL",
+          "link": 69,
+          "slot_index": 0
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 70
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            71,
+            75
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageUpscaleWithModel"
+      }
+    },
+    {
+      "id": 48,
+      "type": "ImageScaleBy",
+      "pos": [
+        2339,
+        610
+      ],
+      "size": {
+        "0": 315,
+        "1": 82
+      },
+      "flags": {},
+      "order": 26,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 75
+        },
+        {
+          "name": "scale_by",
+          "type": "FLOAT",
+          "link": 72,
+          "widget": {
+            "name": "scale_by",
+            "config": [
+              "FLOAT",
+              {
+                "default": 1,
+                "min": 0.01,
+                "max": 8,
+                "step": 0.01
+              }
+            ]
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            110
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScaleBy"
+      },
+      "widgets_values": [
+        "area",
+        1
+      ]
+    },
+    {
+      "id": 45,
+      "type": "Calculate Upscale",
+      "pos": [
+        2354,
+        465
+      ],
+      "size": {
+        "0": 267.9018859863281,
+        "1": 102
+      },
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 71
+        }
+      ],
+      "outputs": [
+        {
+          "name": "tile_size",
+          "type": "INT",
+          "links": null,
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "upscale",
+          "type": "FLOAT",
+          "links": [
+            72,
+            121
+          ],
+          "shape": 3,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Calculate Upscale"
+      },
+      "widgets_values": [
+        1280,
+        93
+      ]
+    },
+    {
+      "id": 69,
+      "type": "Any Converter",
+      "pos": [
+        2683,
+        467
+      ],
+      "size": {
+        "0": 210,
+        "1": 106
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 27,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "int_",
+          "type": "INT",
+          "link": null
+        },
+        {
+          "name": "float_",
+          "type": "FLOAT",
+          "link": 121
+        },
+        {
+          "name": "number_",
+          "type": "NUMBER",
+          "link": null
+        },
+        {
+          "name": "string_",
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "name": "seed_",
+          "type": "SEED",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "NUMBER",
+          "type": "NUMBER",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            122
+          ],
+          "shape": 3,
+          "slot_index": 3
+        },
+        {
+          "name": "SEED",
+          "type": "SEED",
+          "links": null,
+          "shape": 3,
+          "slot_index": 4
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Any Converter"
+      }
+    },
+    {
+      "id": 71,
+      "type": "ShowText|pysssss",
+      "pos": [
+        2691,
+        546
+      ],
+      "size": {
+        "0": 210,
+        "1": 76
+      },
+      "flags": {},
+      "order": 29,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 122
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "0.625"
+      ]
+    },
+    {
+      "id": 68,
+      "type": "Note",
+      "pos": [
+        2684,
+        305
+      ],
+      "size": {
+        "0": 514.4496459960938,
+        "1": 101.7145767211914
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Image is upscaled 4x to 2048. Then downscaled to specified resolution (1280)\n\n2048*0.625 = 1280"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    }
+  ],
+  "links": [
+    [
+      52,
+      30,
+      0,
+      31,
+      0,
+      "LATENT"
+    ],
+    [
+      54,
+      31,
+      0,
+      32,
+      0,
+      "IMAGE"
+    ],
+    [
+      57,
+      38,
+      2,
+      34,
+      0,
+      "STRING"
+    ],
+    [
+      63,
+      37,
+      0,
+      41,
+      0,
+      "STRING"
+    ],
+    [
+      64,
+      40,
+      0,
+      41,
+      1,
+      "STRING"
+    ],
+    [
+      65,
+      42,
+      0,
+      41,
+      4,
+      "STRING"
+    ],
+    [
+      66,
+      43,
+      0,
+      41,
+      5,
+      "STRING"
+    ],
+    [
+      69,
+      47,
+      0,
+      46,
+      0,
+      "UPSCALE_MODEL"
+    ],
+    [
+      70,
+      31,
+      0,
+      46,
+      1,
+      "IMAGE"
+    ],
+    [
+      71,
+      46,
+      0,
+      45,
+      0,
+      "IMAGE"
+    ],
+    [
+      72,
+      45,
+      1,
+      48,
+      1,
+      "FLOAT"
+    ],
+    [
+      74,
+      50,
+      0,
+      49,
+      0,
+      "IMAGE"
+    ],
+    [
+      75,
+      46,
+      0,
+      48,
+      0,
+      "IMAGE"
+    ],
+    [
+      77,
+      50,
+      0,
+      51,
+      0,
+      "IMAGE"
+    ],
+    [
+      78,
+      31,
+      0,
+      52,
+      0,
+      "IMAGE"
+    ],
+    [
+      81,
+      53,
+      0,
+      54,
+      0,
+      "STRING"
+    ],
+    [
+      86,
+      38,
+      0,
+      58,
+      1,
+      "STRING"
+    ],
+    [
+      87,
+      38,
+      1,
+      59,
+      1,
+      "STRING"
+    ],
+    [
+      88,
+      60,
+      1,
+      58,
+      0,
+      "CLIP"
+    ],
+    [
+      89,
+      60,
+      1,
+      59,
+      0,
+      "CLIP"
+    ],
+    [
+      90,
+      59,
+      0,
+      30,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      91,
+      58,
+      0,
+      30,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      92,
+      60,
+      2,
+      31,
+      1,
+      "VAE"
+    ],
+    [
+      93,
+      60,
+      0,
+      30,
+      0,
+      "MODEL"
+    ],
+    [
+      95,
+      61,
+      0,
+      30,
+      3,
+      "LATENT"
+    ],
+    [
+      101,
+      43,
+      0,
+      63,
+      0,
+      "STRING"
+    ],
+    [
+      108,
+      39,
+      0,
+      38,
+      1,
+      "STRING"
+    ],
+    [
+      109,
+      41,
+      0,
+      38,
+      0,
+      "STRING"
+    ],
+    [
+      110,
+      48,
+      0,
+      50,
+      0,
+      "*"
+    ],
+    [
+      111,
+      65,
+      0,
+      66,
+      4,
+      "SEED"
+    ],
+    [
+      116,
+      66,
+      0,
+      62,
+      0,
+      "*"
+    ],
+    [
+      117,
+      62,
+      0,
+      43,
+      0,
+      "INT"
+    ],
+    [
+      118,
+      62,
+      0,
+      37,
+      0,
+      "INT"
+    ],
+    [
+      119,
+      62,
+      0,
+      38,
+      2,
+      "INT"
+    ],
+    [
+      120,
+      66,
+      0,
+      30,
+      4,
+      "INT"
+    ],
+    [
+      121,
+      45,
+      1,
+      69,
+      1,
+      "FLOAT"
+    ],
+    [
+      122,
+      69,
+      3,
+      71,
+      0,
+      "STRING"
+    ],
+    [
+      123,
+      52,
+      0,
+      53,
+      2,
+      "STRING"
+    ],
+    [
+      125,
+      51,
+      0,
+      53,
+      4,
+      "STRING"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {},
+  "version": 0.4
+}
