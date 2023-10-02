@@ -2,12 +2,16 @@ import random
 import re
 from PIL import Image
 import numpy as np
+import torch
+from torchvision.ops import masks_to_boxes
+import comfy.utils
 
 TEXT_TYPE = "STRING"
 INT_TYPE = "INT"
+UND='undefined'
 
 def get_random_line(text, seed):
-    if text is None or text.strip() == '':
+    if text is None or text.strip() == '' or text == UND:
         return ""
 
     lines = text.splitlines()
@@ -101,10 +105,10 @@ class RandomLine4:
         random.seed(seed)
 
         texts = []
-        if len(text1) > 0: texts.append(get_random_line(text1,seed))
-        if len(text2) > 0: texts.append(get_random_line(text2,seed))
-        if len(text3) > 0: texts.append(get_random_line(text3,seed))
-        if len(text4) > 0: texts.append(get_random_line(text4,seed))
+        if len(text1) > 0 and text1 != UND: texts.append(get_random_line(text1,seed))
+        if len(text2) > 0 and text2 != UND: texts.append(get_random_line(text2,seed))
+        if len(text3) > 0 and text3 != UND: texts.append(get_random_line(text3,seed))
+        if len(text4) > 0 and text4 != UND: texts.append(get_random_line(text4,seed))
 
         delimiter = delimiter.replace("\\n", "\n")
 
@@ -255,7 +259,7 @@ class PromptParser:
         return [s for s in arr if s.strip()]
 
     def process_extra(self, text, placeholder, extra=None):
-        if extra is None:
+        if len(extra)>0 and extra == UND:
             if placeholder in text:
                 return text.replace(placeholder, '')
             return text
@@ -299,7 +303,9 @@ class PromptParser:
 
 # Tensor to PIL
 def tensor2pil(image):
-    return Image.fromarray(np.clip(255. * image.cpu().numpy().squeeze(), 0, 255).astype(np.uint8))
+    # Assuming image is a 4D tensor with shape (1, 1, height, width)
+    image = image.squeeze(0)  # Remove the batch dimension
+    return Image.fromarray(np.clip(255. * image.cpu().numpy(), 0, 255).astype(np.uint8))
 
 class CalculateUpscale:
     def __init__(self):
@@ -322,9 +328,9 @@ class CalculateUpscale:
     CATEGORY = "Hakkun"
 
     def calculate(self, image, tiles_in_x, target_height):
-        image = tensor2pil(image)
-        img_width = image.size[0]
-        img_height = image.size[1]
+        image_size = image.size()
+        img_width = int(image_size[2])
+        img_height = int(image_size[1])
 
         upscale = target_height/img_height
 
@@ -333,6 +339,65 @@ class CalculateUpscale:
         tile_size=upscaled_width/tiles_in_x
 
         return tile_size, upscale
+
+class ImageResizeToWidth:
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "image": ("IMAGE",),
+                "target_width": (INT_TYPE, {"default": 1920, "min": 1, "step": 1}),
+            }
+        }
+
+    RETURN_TYPES = ("IMAGE",)
+    RETURN_NAMES = ("image",)
+    FUNCTION = "calculate"
+
+    CATEGORY = "Hakkun"
+
+    def calculate(self, image, target_width):
+        image_size = image.size()
+        img_width = int(image_size[2])
+        scale_by = target_width/img_width
+        return upscale(image, 'area', scale_by)
+
+class ImageResizeToHeight:
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "image": ("IMAGE",),
+                "target_height": (INT_TYPE, {"default": 1920, "min": 1, "step": 1}),
+            }
+        }
+
+    RETURN_TYPES = ("IMAGE",)
+    RETURN_NAMES = ("image",)
+    FUNCTION = "calculate"
+
+    CATEGORY = "Hakkun"
+
+    def calculate(self, image, target_height):
+        image_size = image.size()
+        img_height = int(image_size[1])
+        scale_by = target_height/img_height
+        return upscale(image, 'area', scale_by)
+
+def upscale(image, upscale_method, scale_by):
+    samples = image.movedim(-1,1)
+    width = round(samples.shape[3] * scale_by)
+    height = round(samples.shape[2] * scale_by)
+    s = comfy.utils.common_upscale(samples, width, height, upscale_method, "disabled")
+    s = s.movedim(1,-1)
+    return (s,)
+
 
 class ImageSizeToString:
     def __init__(self):
@@ -353,9 +418,9 @@ class ImageSizeToString:
     CATEGORY = "Hakkun"
 
     def calculate(self, image):
-        image = tensor2pil(image)
-        img_width = image.size[0]
-        img_height = image.size[1]
+        image_size = image.size()
+        img_width = int(image_size[2])
+        img_height = int(image_size[1])
 
         size = str(img_width)+'x'+str(img_height)
 
@@ -375,10 +440,11 @@ class AnyConverter:
                 "number_": ("NUMBER", {"forceInput": True}),
                 "string_": (TEXT_TYPE, {"forceInput": True}),
                 "seed_": ("SEED", ),
+                "str_": ("STR", ),
             }
         }
 
-    RETURN_TYPES = ("INT", "FLOAT", "NUMBER", TEXT_TYPE, "SEED")
+    RETURN_TYPES = ("INT", "FLOAT", "NUMBER", TEXT_TYPE, "SEED", "STR")
     FUNCTION = "convert"
     CATEGORY = "Hakkun"
 
@@ -394,7 +460,9 @@ class AnyConverter:
         except (ValueError, TypeError):
             return 0.0
 
-    def convert(self, int_=None, float_=None, number_=None, string_=None, seed_=None):
+    def convert(self, int_=None, float_=None, number_=None, string_=None, seed_=None, str_=None):
+        if str_ is not None or str_ == UND:
+            string_=str_
         if int_ is not None:
             value=int_
         elif float_ is not None:
@@ -406,7 +474,8 @@ class AnyConverter:
                     self.string_to_number(string_),
                     self.string_to_number(string_),
                     string_,
-                    {"seed":self.string_to_int(string_), },)
+                    {"seed":self.string_to_int(string_), },
+                    string_,)
         elif seed_ is not None:
             value=seed_.get('seed')
         else:
@@ -422,4 +491,6 @@ NODE_CLASS_MAPPINGS = {
     "Calculate Upscale": CalculateUpscale,
     "Image size to string": ImageSizeToString,
     "Any Converter": AnyConverter,
+    "Image Resize To Height": ImageResizeToHeight,
+    "Image Resize To Width": ImageResizeToWidth,
 }
