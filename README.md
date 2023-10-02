@@ -119,3 +119,8 @@ Outputs input image size in format: ```512x768```
 
 Universal primitive type converter. If string cant be number it wil be 0
 
+## Image Resize To Height/Widthy
+![image](https://github.com/tudal/Hakkun-ComfyUI-nodes/assets/799063/ec54d06d-41bd-451d-888d-5c52664edb80)
+
+Resize image to desired width or height. Support batches.
+
