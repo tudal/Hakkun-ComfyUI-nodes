@@ -1,6 +1,3 @@
-# Hakkun-ComfyUI-nodes
-Simple ComfyUI extra nodes. Mainly its prompt generating by custom syntax.
-
 # Installation
 Just put `hakkun_nodes.py` into `ComfyUI\custom_nodes`
 
