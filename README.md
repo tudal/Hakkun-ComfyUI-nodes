@@ -85,6 +85,8 @@ You can set the ```seed``` as an input to control randomness along with the rest
 Using the ```debug``` output will provide you with all the information about the generated prompt.
 
 ### Tags:
+![image](https://github.com/tudal/Hakkun-ComfyUI-nodes/assets/799063/18e66b51-57cc-408b-94ae-d658cfe663a1)
+
 You can apply custom tags by ```tags``` string input or load text file from ```tags_file``` (full path)
 
 Set tag by ```>>>YOUR_TAG``` + lines below as content (check workflow for example)
@@ -149,5 +151,5 @@ Simplest load text file (somehow I could not find such stuff in other nodes that
 ## Load Random Image
 ![image](https://github.com/tudal/Hakkun-ComfyUI-nodes/assets/799063/a3942c1d-2ed3-4823-9b3a-c13107ce58f7)
 
-Will return one random image ('.jpg', '.jpeg', '.png', '.webp') from passed directory and return one random with its file name (without extension).
+Will return one random image ('.jpg', '.jpeg', '.png', '.webp') from passed directory and its file name (without extension).
 
