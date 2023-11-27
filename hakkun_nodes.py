@@ -1,13 +1,17 @@
 import random
+import io
 import re
 from PIL import Image
+from PIL import ImageOps
 import numpy as np
 import torch
 from torchvision.ops import masks_to_boxes
 import comfy.utils
+import os
 
 TEXT_TYPE = "STRING"
 INT_TYPE = "INT"
+IMAGE_TYPE = "IMAGE"
 UND='undefined'
 
 def get_random_line(text, seed):
@@ -125,11 +129,13 @@ class PromptParser:
         return {
             "required": {
                 "prompt": (TEXT_TYPE, {"default": '', "multiline": True}),
+                "tags_file": ("STRING", {"default": '', "multiline": False}),
                 "seed": (INT_TYPE, {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
             },
             "optional": {
                 "extra1": (TEXT_TYPE, {"default": '', "multiline": True, "forceInput": True}),
                 "extra2": (TEXT_TYPE, {"default": '', "multiline": True, "forceInput": True}),
+                "tags": (TEXT_TYPE, {"default": '', "multiline": True, "forceInput": True}),
             }
         }
 
@@ -273,11 +279,21 @@ class PromptParser:
         elements = [element for element in elements if element]
         return ", ".join(elements)
 
-    def parse_prompt(self, prompt, seed, extra1=None, extra2=None):
+    def parse_prompt(self, prompt, tags_file, seed, extra1=None, extra2=None, tags=None):
         random.seed(seed)
+
+        if len(tags_file)>0 and tags_file != UND:
+            tags = load_text(tags_file)
+
+        prompt = remove_comments(prompt)
 
         prompt = self.process_extra(prompt, "<extra2>", extra2)
         prompt = self.process_extra(prompt, "<extra1>", extra1)
+
+        if len(tags)>0 and tags != UND:
+            tags = remove_empty_lines(tags)
+            tags_dict = multiline_string_to_dict(tags)
+            prompt = replace_placeholders(prompt, tags_dict)
 
         raw = prompt
 
@@ -315,7 +331,7 @@ class CalculateUpscale:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "image": ("IMAGE",),
+                "image": (IMAGE_TYPE,),
                 "target_height": (INT_TYPE, {"default": 1920, "min": 0, "step": 1}),
                 "tiles_in_x": (INT_TYPE, {"default": 1, "min": 1, "step": 1}),
             }
@@ -348,12 +364,12 @@ class ImageResizeToWidth:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "image": ("IMAGE",),
+                "image": (IMAGE_TYPE,),
                 "target_width": (INT_TYPE, {"default": 1920, "min": 1, "step": 1}),
             }
         }
 
-    RETURN_TYPES = ("IMAGE",)
+    RETURN_TYPES = (IMAGE_TYPE,)
     RETURN_NAMES = ("image",)
     FUNCTION = "calculate"
 
@@ -363,7 +379,7 @@ class ImageResizeToWidth:
         image_size = image.size()
         img_width = int(image_size[2])
         scale_by = target_width/img_width
-        return upscale(image, 'area', scale_by)
+        return upscale(image, 'lanczos', scale_by)
 
 class ImageResizeToHeight:
     def __init__(self):
@@ -373,12 +389,12 @@ class ImageResizeToHeight:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "image": ("IMAGE",),
+                "image": (IMAGE_TYPE,),
                 "target_height": (INT_TYPE, {"default": 1920, "min": 1, "step": 1}),
             }
         }
 
-    RETURN_TYPES = ("IMAGE",)
+    RETURN_TYPES = (IMAGE_TYPE,)
     RETURN_NAMES = ("image",)
     FUNCTION = "calculate"
 
@@ -388,7 +404,7 @@ class ImageResizeToHeight:
         image_size = image.size()
         img_height = int(image_size[1])
         scale_by = target_height/img_height
-        return upscale(image, 'area', scale_by)
+        return upscale(image, 'lanczos', scale_by)
 
 def upscale(image, upscale_method, scale_by):
     samples = image.movedim(-1,1)
@@ -407,7 +423,7 @@ class ImageSizeToString:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "image": ("IMAGE",),
+                "image": (IMAGE_TYPE,),
             }
         }
 
@@ -483,6 +499,136 @@ class AnyConverter:
         return int(value),float(value),float(value),str(value),{"seed":int(value), }
 
 
+def multiline_string_to_dict(input_string):
+    lines = input_string.strip().split('\n')
+    result_dict = {}
+    current_key = None
+    current_value = ""
+
+    for line in lines:
+        if line.startswith('>>>'):
+            # If a new key is encountered, save the previous key and value
+            if current_key is not None:
+                result_dict[current_key] = current_value
+            current_key = line[3:]
+            current_value = ""
+        elif current_value=="":
+            current_value = line.strip()
+        else:
+            current_value += ', ' + line.strip()
+
+    #for key, value in result_dict.items():
+        # result_dict[key] = remove_trailing_newline(value)
+
+    # Add the last key and value to the dictionary
+    if current_key is not None:
+        result_dict[current_key] = current_value
+
+    return result_dict
+
+def replace_placeholders(input_string, dictionary):
+    for key, value in dictionary.items():
+        placeholder = f'<{key}>'
+        input_string = input_string.replace(placeholder, value)
+    return input_string
+
+def remove_empty_lines(input_string):
+    lines = input_string.split('\n')  # Split the input string into lines
+    non_empty_lines = [line for line in lines if line.strip()]  # Filter out lines with only whitespace
+    return '\n'.join(non_empty_lines)  # Join the non-empty lines back into a string
+
+def remove_trailing_newline(input_string):
+    while input_string.endswith('\n'):
+        input_string = input_string[:-1]
+    return input_string
+
+class LoadRandomImage:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "directory": (TEXT_TYPE, {"default": ""}),
+                "seed": (INT_TYPE, {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
+            },
+        }
+
+    RETURN_TYPES = (IMAGE_TYPE,TEXT_TYPE)
+    RETURN_NAMES = ("image","file name")
+    FUNCTION = "load_images"
+
+    CATEGORY = "Hakkun"
+
+    def load_images(self, directory: str, seed):
+        if not os.path.isdir(directory):
+            raise FileNotFoundError(f"Directory '{directory} cannot be found.'")
+        dir_files = os.listdir(directory)
+        if len(dir_files) == 0:
+            raise FileNotFoundError(f"No files in directory '{directory}'.")
+
+        valid_extensions = ['.jpg', '.jpeg', '.png', '.webp']
+        dir_files = [f for f in dir_files if any(f.lower().endswith(ext) for ext in valid_extensions)]
+
+        dir_files = sorted(dir_files)
+        dir_files = [os.path.join(directory, x) for x in dir_files]
+
+        random.seed(seed)
+        random_index = random.randint(0, len(dir_files) - 1)
+        image_path = dir_files[random_index]
+
+        i = Image.open(image_path)
+        i = ImageOps.exif_transpose(i)
+        image = i.convert("RGB")
+        image = np.array(image).astype(np.float32) / 255.0
+        image = torch.from_numpy(image)[None,]
+
+        file_name = get_file_name_without_extension(image_path)
+
+        return (image,file_name)
+
+class LoadText:
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "file_path": ("STRING", {"default": '', "multiline": False}),
+            }
+        }
+
+    RETURN_TYPES = (TEXT_TYPE,)
+    FUNCTION = "load_file"
+
+    CATEGORY = "Hakkun"
+
+    def load_file(self, file_path=''):
+        return (load_text(file_path),)
+
+def load_text(file_path=''):
+    with open(file_path, 'r', encoding="utf-8", newline='\n') as file:
+        text = file.read()
+    lines = []
+    for line in io.StringIO(text):
+        if not line.strip().startswith('#'):
+            if ( not line.strip().startswith("\n")
+                    or not line.strip().startswith("\r")
+                    or not line.strip().startswith("\r\n") ):
+                line = line.replace("\n", '').replace("\r",'').replace("\r\n",'')
+            lines.append(line.replace("\n",'').replace("\r",'').replace("\r\n",''))
+    return "\n".join(lines)
+
+def remove_comments(string):
+    pattern = r"/\*.*?\*/"
+    modified_string = re.sub(pattern, "", string)
+    return modified_string
+
+def get_file_name_without_extension(file_path):
+    file_name_with_extension = os.path.basename(file_path)
+    file_name, _ = os.path.splitext(file_name_with_extension)
+    return file_name
+
+
 NODE_CLASS_MAPPINGS = {
     "Multi Text Merge": MultiTextMerge,
     "Random Line": RandomLine,
@@ -493,4 +639,6 @@ NODE_CLASS_MAPPINGS = {
     "Any Converter": AnyConverter,
     "Image Resize To Height": ImageResizeToHeight,
     "Image Resize To Width": ImageResizeToWidth,
+    "Load Random Image": LoadRandomImage,
+    "Load Text": LoadText,
 }
