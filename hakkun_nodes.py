@@ -50,9 +50,9 @@ class MultiTextMerge:
 
     def concatenate_strings(self, s1='', s2='', s3='', s4='', s5='', s6='', delimiter="_"):
         delimiter = delimiter.replace("\\n", "\n")
-        strings = [s for s in [s1, s2, s3, s4, s5, s6] if s]
+        strings=[s1, s2, s3, s4, s5, s6]
+        strings = [s for s in strings if s != UND]
         concatenated_string = delimiter.join(strings)
-
         return concatenated_string,
 
 class RandomLine:
