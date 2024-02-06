@@ -15,7 +15,7 @@ IMAGE_TYPE = "IMAGE"
 UND='undefined'
 
 def get_random_line(text, seed):
-    if text is None or text.strip() == '' or text == UND:
+    if isEmpty(text):
         return ""
 
     lines = text.splitlines()
@@ -51,7 +51,7 @@ class MultiTextMerge:
     def concatenate_strings(self, s1='', s2='', s3='', s4='', s5='', s6='', delimiter="_"):
         delimiter = delimiter.replace("\\n", "\n")
         strings=[s1, s2, s3, s4, s5, s6]
-        strings = [s for s in strings if s != UND]
+        strings = [s for s in strings if isOk(s)]
         concatenated_string = delimiter.join(strings)
         return concatenated_string,
 
@@ -109,10 +109,10 @@ class RandomLine4:
         random.seed(seed)
 
         texts = []
-        if len(text1) > 0 and text1 != UND: texts.append(get_random_line(text1,seed))
-        if len(text2) > 0 and text2 != UND: texts.append(get_random_line(text2,seed))
-        if len(text3) > 0 and text3 != UND: texts.append(get_random_line(text3,seed))
-        if len(text4) > 0 and text4 != UND: texts.append(get_random_line(text4,seed))
+        if isOk(text1): texts.append(get_random_line(text1,seed))
+        if isOk(text2): texts.append(get_random_line(text2,seed))
+        if isOk(text3): texts.append(get_random_line(text3,seed))
+        if isOk(text4): texts.append(get_random_line(text4,seed))
 
         delimiter = delimiter.replace("\\n", "\n")
 
@@ -265,7 +265,7 @@ class PromptParser:
         return [s for s in arr if s.strip()]
 
     def process_extra(self, text, placeholder, extra=None):
-        if len(extra)>0 and extra == UND:
+        if isEmpty(extra):
             if placeholder in text:
                 return text.replace(placeholder, '')
             return text
@@ -281,8 +281,7 @@ class PromptParser:
 
     def parse_prompt(self, prompt, tags_file, seed, extra1=None, extra2=None, tags=None):
         random.seed(seed)
-
-        if len(tags_file)>0 and tags_file != UND:
+        if isOk(tags_file):
             tags = load_text(tags_file)
 
         prompt = remove_comments(prompt)
@@ -290,7 +289,7 @@ class PromptParser:
         prompt = self.process_extra(prompt, "<extra2>", extra2)
         prompt = self.process_extra(prompt, "<extra1>", extra1)
 
-        if len(tags)>0 and tags != UND:
+        if isOk(tags):
             tags = remove_empty_lines(tags)
             tags_dict = multiline_string_to_dict(tags)
             prompt = replace_placeholders(prompt, tags_dict)
@@ -477,22 +476,22 @@ class AnyConverter:
             return 0.0
 
     def convert(self, int_=None, float_=None, number_=None, string_=None, seed_=None, str_=None):
-        if str_ is not None or str_ == UND:
+        if isOk(str_):
             string_=str_
-        if int_ is not None:
+        if isOk(int_):
             value=int_
-        elif float_ is not None:
+        elif isOk(float_):
             value=float_
-        elif number_ is not None:
+        elif isOk(number_):
             value=number_
-        elif string_ is not None:
+        elif isOk(string_):
             return (self.string_to_int(string_),
                     self.string_to_number(string_),
                     self.string_to_number(string_),
                     string_,
                     {"seed":self.string_to_int(string_), },
                     string_,)
-        elif seed_ is not None:
+        elif isOk(seed_):
             value=seed_.get('seed')
         else:
             value=0
@@ -628,6 +627,11 @@ def get_file_name_without_extension(file_path):
     file_name, _ = os.path.splitext(file_name_with_extension)
     return file_name
 
+def isEmpty(value):
+    return value is None or (isinstance(value, str) and value == "")
+
+def isOk(value):
+    return not isEmpty(value)
 
 NODE_CLASS_MAPPINGS = {
     "Multi Text Merge": MultiTextMerge,
