@@ -547,6 +547,7 @@ class LoadRandomImage:
         return {
             "required": {
                 "directory": (TEXT_TYPE, {"default": ""}),
+                "subdirectories": (["ignore", "include"],),
                 "seed": (INT_TYPE, {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
             },
         }
@@ -557,19 +558,28 @@ class LoadRandomImage:
 
     CATEGORY = "Hakkun"
 
-    def load_images(self, directory: str, seed):
+    def load_images(self, directory: str, subdirectories: str, seed):
         if not os.path.isdir(directory):
             raise FileNotFoundError(f"Directory '{directory} cannot be found.'")
-        dir_files = os.listdir(directory)
-        if len(dir_files) == 0:
-            raise FileNotFoundError(f"No files in directory '{directory}'.")
 
-        valid_extensions = ['.jpg', '.jpeg', '.png', '.webp']
-        dir_files = [f for f in dir_files if any(f.lower().endswith(ext) for ext in valid_extensions)]
+        # Function to recursively find files in subdirectories
+        def find_files_in_dir(directory, subdirectories):
+            valid_extensions = ['.jpg', '.jpeg', '.png', '.webp']
+            if subdirectories == "include":
+                dir_files = []
+                for root, dirs, files in os.walk(directory):
+                    dir_files += [os.path.join(root, f) for f in files if any(f.lower().endswith(ext) for ext in valid_extensions)]
+            else:
+                dir_files = [os.path.join(directory, f) for f in os.listdir(directory) if any(f.lower().endswith(ext) for ext in valid_extensions)]
+            return dir_files
+        
+        dir_files = find_files_in_dir(directory, subdirectories)
+
+        if not dir_files:
+            raise FileNotFoundError(f"No valid image files in directory '{directory}'.")
 
         dir_files = sorted(dir_files)
-        dir_files = [os.path.join(directory, x) for x in dir_files]
-
+        
         random.seed(seed)
         random_index = random.randint(0, len(dir_files) - 1)
         image_path = dir_files[random_index]
@@ -582,7 +592,7 @@ class LoadRandomImage:
 
         file_name = get_file_name_without_extension(image_path)
 
-        return (image,file_name)
+        return (image ,file_name)
 
 class LoadText:
     def __init__(self):
