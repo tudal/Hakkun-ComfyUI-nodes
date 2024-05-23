@@ -1,0 +1,14 @@
+[project]
+name = "hakkun-comfyui-nodes"
+description = "Nodes: Prompt parser. ComfyUI extra nodes. Mostly prompt parsing."
+version = "1.0.0"
+license = "LICENSE"
+
+[project.urls]
+Repository = "https://github.com/tudal/Hakkun-ComfyUI-nodes"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "Hakkun-ComfyUI-nodes"
+Icon = ""
