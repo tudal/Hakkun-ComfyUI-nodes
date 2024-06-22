@@ -227,7 +227,7 @@ class PromptParser:
         return result
 
     def randomly_select_string_with_weight(self, arr, n):
-        weights = []
+        weights = []        
         strings_without_weight = []
         weight_pattern = r'(\*(\d+)\*|\d+:)'
 
@@ -248,11 +248,11 @@ class PromptParser:
                 # If no weight pattern is found, consider weight as 1
                 weights.append(100)
                 strings_without_weight.append(string)
-
-        # selected_string = random.choices(strings_without_weight, weights=weights, k=n)
+        
         total_weight = sum(weights)
         normalized_weights = [w/total_weight for w in weights]
         
+        # Select no more than the number of strings available
         if n > len(strings_without_weight):
             n = len(strings_without_weight)
         
@@ -264,12 +264,22 @@ class PromptParser:
     # [*150*car|boat*30*|bi*80*ke]
     def select_random(self, text):
         def random_choice(match):
-            num_choices, options_str = match.groups(default="1")
-            n = int(num_choices) if num_choices.isdigit() else 1
+            
+            num_choices, options_str = match.groups()
+            n = 1
+            if num_choices:
+                # Randomly select between n-m choices
+                if '-' in num_choices:
+                    start, end = map(int, num_choices.split('-'))
+                    n = random.randint(start, end)
+                # Randomly select n choices
+                else:
+                    n = int(num_choices)
+            
             options = options_str.split('|')
             return ' '.join(self.randomly_select_string_with_weight(options, n))
 
-        pattern = r'\[(\d*)#?([^\[\]]+)\]'
+        pattern = r'\[(?:(\d+-\d+|\d*)#)?([^\[\]]+)\]'
 
         while re.search(pattern, text):
             text = re.sub(pattern, random_choice, text)
