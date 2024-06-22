@@ -226,24 +226,37 @@ class PromptParser:
         result = re.sub(pattern, self.replace_random, input)
         return result
 
-    # ["*150*car", "boat*30*", "*80*bike"]
-    def randomly_select_string_with_weight(self, arr):
+    def randomly_select_string_with_weight(self, arr, n):
         weights = []
         strings_without_weight = []
-        weight_pattern = r'\*(\d+)\*'
+        weight_pattern = r'(\*(\d+)\*|\d+:)'
 
         for string in arr:
             match = re.search(weight_pattern, string)
             if match:
-                weight = int(match.group(1))
+                weight_str = match.group(1)
+
+                # Extract "*weight*" or "weight:" patterns
+                if ':' in weight_str:
+                    weight = int(weight_str[:-1])
+                else:
+                    weight = int(weight_str.strip('*'))
                 weights.append(weight)
-                strings_without_weight.append(string.replace(match.group(), ''))
+                strings_without_weight.append(
+                    string.replace(match.group(), ''))
             else:
                 # If no weight pattern is found, consider weight as 1
                 weights.append(100)
                 strings_without_weight.append(string)
 
-        selected_string = random.choices(strings_without_weight, weights=weights)[0]
+        # selected_string = random.choices(strings_without_weight, weights=weights, k=n)
+        total_weight = sum(weights)
+        normalized_weights = [w/total_weight for w in weights]
+        
+        if n > len(strings_without_weight):
+            n = len(strings_without_weight)
+        
+        selected_string = np.random.choice(strings_without_weight, n, p=normalized_weights, replace=False)
         return selected_string
 
     # "I went there with [a [fast|slow] [car|[boat|yaht]]|an [expensive|cheap] [car|[boat|yaht]]]"
@@ -251,10 +264,12 @@ class PromptParser:
     # [*150*car|boat*30*|bi*80*ke]
     def select_random(self, text):
         def random_choice(match):
-            options = match.group(1).split('|')
-            return self.randomly_select_string_with_weight(options)
+            num_choices, options_str = match.groups(default="1")
+            n = int(num_choices) if num_choices.isdigit() else 1
+            options = options_str.split('|')
+            return ' '.join(self.randomly_select_string_with_weight(options, n))
 
-        pattern = r'\[([^\[\]]+)\]'
+        pattern = r'\[(\d*)#?([^\[\]]+)\]'
 
         while re.search(pattern, text):
             text = re.sub(pattern, random_choice, text)
