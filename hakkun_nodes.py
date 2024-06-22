@@ -271,6 +271,7 @@ class PromptParser:
             if use_seed:
                 np_seed = seed % (2**32)
                 np.random.seed(np_seed)
+                random.seed(seed)
 
             if num_choices:
                 # Randomly select between n-m choices
