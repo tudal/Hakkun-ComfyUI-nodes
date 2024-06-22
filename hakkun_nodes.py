@@ -226,7 +226,7 @@ class PromptParser:
         result = re.sub(pattern, self.replace_random, input)
         return result
 
-    def randomly_select_string_with_weight(self, arr, n):
+    def randomly_select_string_with_weight(self, arr, n, seed):
         weights = []        
         strings_without_weight = []
         weight_pattern = r'(\*(\d+)\*|\d+:)'
@@ -256,7 +256,16 @@ class PromptParser:
         if n > len(strings_without_weight):
             n = len(strings_without_weight)
         
-        selected_string = np.random.choice(strings_without_weight, n, p=normalized_weights, replace=False)
+        # Use [!...] to force the use of seed inside bracket
+        if seed:
+            np_seed = seed % (2**32)
+            rng = np.random.default_rng(np_seed)
+            choice_function = rng.choice
+            random.seed(seed)
+        else:
+            choice_function = np.random.choice
+                
+        selected_string = choice_function(strings_without_weight, n,  p=normalized_weights, replace=False)
         return selected_string
 
     # "I went there with [a [fast|slow] [car|[boat|yaht]]|an [expensive|cheap] [car|[boat|yaht]]]"
@@ -266,13 +275,7 @@ class PromptParser:
         def random_choice(match):
             use_seed, num_choices, options_str = match.groups()
             n = 1
-
-            # Use [!...] to force the use of seed
-            if use_seed:
-                np_seed = seed % (2**32)
-                np.random.seed(np_seed)
-                random.seed(seed)
-
+              
             if num_choices:
                 # Randomly select between n-m choices
                 if '-' in num_choices:
@@ -283,7 +286,8 @@ class PromptParser:
                     n = int(num_choices)
 
             options = options_str.split('|')
-            return ' '.join(self.randomly_select_string_with_weight(options, n))
+            arr_seed = int(seed) if use_seed else None
+            return ' '.join(self.randomly_select_string_with_weight(options, n, arr_seed))
 
         pattern = r'\[(!)?(?:(\d+-\d+|\d*)#)?([^\[\]]+)\]'
 
