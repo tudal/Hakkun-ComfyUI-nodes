@@ -1,1 +1,3147 @@
-{"last_node_id": 100, "last_link_id": 161, "nodes": [{"id": 32, "type": "PreviewImage", "pos": [1770, 950], "size": {"0": 609.8162841796875, "1": 655.5281372070312}, "flags": {}, "order": 37, "mode": 0, "inputs": [{"name": "images", "type": "IMAGE", "link": 54}], "properties": {"Node name for S&R": "PreviewImage"}}, {"id": 58, "type": "CLIPTextEncode", "pos": [766, 798], "size": {"0": 210, "1": 54}, "flags": {"collapsed": false}, "order": 32, "mode": 0, "inputs": [{"name": "clip", "type": "CLIP", "link": 88}, {"name": "text", "type": "STRING", "link": 128, "widget": {"name": "text"}}], "outputs": [{"name": "CONDITIONING", "type": "CONDITIONING", "links": [91], "shape": 3, "slot_index": 0}], "properties": {"Node name for S&R": "CLIPTextEncode"}, "widgets_values": [""]}, {"id": 59, "type": "CLIPTextEncode", "pos": [757, 904], "size": {"0": 210, "1": 54}, "flags": {"collapsed": false}, "order": 33, "mode": 0, "inputs": [{"name": "clip", "type": "CLIP", "link": 89}, {"name": "text", "type": "STRING", "link": 129, "widget": {"name": "text"}}], "outputs": [{"name": "CONDITIONING", "type": "CONDITIONING", "links": [90], "shape": 3, "slot_index": 0}], "properties": {"Node name for S&R": "CLIPTextEncode"}, "widgets_values": [""]}, {"id": 49, "type": "PreviewImage", "pos": [2406, 953], "size": {"0": 830.8914184570312, "1": 864.346435546875}, "flags": {}, "order": 54, "mode": 0, "inputs": [{"name": "images", "type": "IMAGE", "link": 74}], "title": "upscaled", "properties": {"Node name for S&R": "PreviewImage"}}, {"id": 50, "type": "Reroute", "pos": [2434, 867], "size": [75, 26], "flags": {}, "order": 50, "mode": 0, "inputs": [{"name": "", "type": "*", "link": 110}], "outputs": [{"name": "", "type": "IMAGE", "links": [74, 77], "slot_index": 0}], "properties": {"showOutputText": false, "horizontal": false}}, {"id": 30, "type": "KSampler", "pos": [1200, 950], "size": {"0": 315, "1": 262}, "flags": {}, "order": 35, "mode": 0, "inputs": [{"name": "model", "type": "MODEL", "link": 93}, {"name": "positive", "type": "CONDITIONING", "link": 91}, {"name": "negative", "type": "CONDITIONING", "link": 90}, {"name": "latent_image", "type": "LATENT", "link": 95, "slot_index": 3}, {"name": "seed", "type": "INT", "link": 140, "widget": {"name": "seed"}}], "outputs": [{"name": "LATENT", "type": "LATENT", "links": [52], "slot_index": 0}], "properties": {"Node name for S&R": "KSampler"}, "widgets_values": [377, "fixed", 20, 6, "dpmpp_2m", "karras", 1]}, {"id": 60, "type": "CheckpointLoaderSimple", "pos": [13, 1071], "size": {"0": 437.35968017578125, "1": 98}, "flags": {}, "order": 0, "mode": 0, "outputs": [{"name": "MODEL", "type": "MODEL", "links": [93], "shape": 3, "slot_index": 0}, {"name": "CLIP", "type": "CLIP", "links": [88, 89], "shape": 3, "slot_index": 1}, {"name": "VAE", "type": "VAE", "links": [92], "shape": 3, "slot_index": 2}], "properties": {"Node name for S&R": "CheckpointLoaderSimple"}, "widgets_values": ["photon_v1.safetensors"]}, {"id": 34, "type": "ShowText|pysssss", "pos": [1758, 227], "size": {"0": 541.1510620117188, "1": 602.2723999023438}, "flags": {}, "order": 34, "mode": 0, "inputs": [{"name": "text", "type": "STRING", "link": 130}], "outputs": [{"name": "STRING", "type": "STRING", "links": null, "shape": 6}], "title": "prompt parser debug", "properties": {"Node name for S&R": "ShowText|pysssss"}, "widgets_values": ["POSITIVE:\ngigantic, style1POS, sunny, city full of fast bicycles, isometric city at day with rockets, cyberpunk, highly detailed, render_with_blender, 3d render cgi\n\nNEGATIVE:\nstyle1NEG, undefined, undefined, style2POS, style2NEG1, style2NEG2, earth, embedding:CyberRealistic_Negative-neg, drawing painting anime cartoon, (low quality:1.4), (worst quality:1.4)\n\nseed:607007430948444\n\nextra1:gigantic, style1POS @ style1NEG, undefined, undefined, style2POS\n@ style2NEG1, style2NEG2, earth\nsunny\nextra2:@em:CyberRealistic_Negative-neg\n!@em:ng_deepnegative_v1_75t\n\nRAW:\ngigantic, style1POS @ style1NEG, undefined, undefined, style2POS\n@ style2NEG1, style2NEG2, earth\nsunny, [town|city] full of [[fast|slow] [cars|[bicycles|motorbikes]]|[[loud|cute] [horses|[ducks|chickens]]]]\n\n\nisometric [[*10*pink|blue] bedroom*25*|city at [day|night] with [cars|*100*trains|rockets*300*]], , \n\n, ,,,,\n\n\n! ignored positive prompt\n! @ ignored negative prompt\n\n[*20*fantasy | *20*cyberpunk | *20*alien | *300*futuristic]\n\nhighly detailed, render_with_blender\n\n\n\n?cutaway box\n\n?20% (explosion:1.2)\n\n@em:CyberRealistic_Negative-neg\n!@em:ng_deepnegative_v1_75t\n  \n3d render cgi @ drawing painting anime cartoon\n\n@ (low quality:1.4), (worst quality:1.4)\n\n\n^\n\neverything after ^ as first in line\nwill\nbe\nignored"]}, {"id": 39, "type": "Text Multiline", "pos": [630, 571], "size": {"0": 404.714599609375, "1": 109.89520263671875}, "flags": {}, "order": 1, "mode": 0, "outputs": [{"name": "STRING", "type": "STRING", "links": [127], "shape": 3, "slot_index": 0}], "properties": {"Node name for S&R": "Text Multiline"}, "widgets_values": ["@em:CyberRealistic_Negative-neg\n!@em:ng_deepnegative_v1_75t"]}, {"id": 63, "type": "ShowText|pysssss", "pos": [853, 68], "size": {"0": 237.83094787597656, "1": 130.4280548095703}, "flags": {}, "order": 29, "mode": 0, "inputs": [{"name": "text", "type": "STRING", "link": 101}], "outputs": [{"name": "STRING", "type": "STRING", "links": null, "shape": 6}], "properties": {"Node name for S&R": "ShowText|pysssss"}, "widgets_values": ["earth\nsunny"]}, {"id": 37, "type": "Random Line", "pos": [-34, 62], "size": {"0": 210, "1": 137.49395751953125}, "flags": {}, "order": 27, "mode": 0, "inputs": [{"name": "seed", "type": "INT", "link": 118, "widget": {"name": "seed"}}], "outputs": [{"name": "STRING", "type": "STRING", "links": [133], "shape": 3, "slot_index": 0}], "properties": {"Node name for S&R": "Random Line"}, "widgets_values": ["[cute|sweet]\n[scary|creepy]\nsmall\ngigantic", 461, "increment"]}, {"id": 40, "type": "Text Multiline", "pos": [-215, 243], "size": {"0": 404.714599609375, "1": 109.89520263671875}, "flags": {}, "order": 2, "mode": 0, "outputs": [{"name": "STRING", "type": "STRING", "links": [134], "shape": 3, "slot_index": 0}], "title": "style1", "properties": {"Node name for S&R": "Text Multiline"}, "widgets_values": ["style1POS @ style1NEG"]}, {"id": 42, "type": "Text Multiline", "pos": [-215, 404], "size": {"0": 404.714599609375, "1": 109.89520263671875}, "flags": {}, "order": 3, "mode": 0, "outputs": [{"name": "STRING", "type": "STRING", "links": [135], "shape": 3, "slot_index": 0}], "title": "style2", "properties": {"Node name for S&R": "Text Multiline"}, "widgets_values": ["style2POS\n@ style2NEG1, style2NEG2"]}, {"id": 43, "type": "Random Line 4", "pos": [-98, -312], "size": {"0": 261.4070129394531, "1": 293.948486328125}, "flags": {}, "order": 26, "mode": 0, "inputs": [{"name": "seed", "type": "INT", "link": 117, "widget": {"name": "seed"}}], "outputs": [{"name": "STRING", "type": "STRING", "links": [101, 136], "shape": 3, "slot_index": 0}], "properties": {"Node name for S&R": "Random Line 4"}, "widgets_values": ["mars\nearth\nvenus", "", "rain\nsunny", "", 781871488774405, "randomize", "\\n"]}, {"id": 44, "type": "Text Multiline", "pos": [-215, 564], "size": {"0": 404.714599609375, "1": 109.89520263671875}, "flags": {}, "order": 4, "mode": 0, "outputs": [{"name": "STRING", "type": "STRING", "links": [], "shape": 3, "slot_index": 0}], "title": "style3", "properties": {"Node name for S&R": "Text Multiline"}, "widgets_values": ["style3POS"]}, {"id": 62, "type": "Reroute", "pos": [-594, 587], "size": [75, 26], "flags": {}, "order": 23, "mode": 0, "inputs": [{"name": "", "type": "*", "link": 139}], "outputs": [{"name": "", "type": "INT", "links": [117, 118], "slot_index": 0}], "properties": {"showOutputText": false, "horizontal": false}}, {"id": 75, "type": "ShowText|pysssss", "pos": [-367, 1136], "size": {"0": 315, "1": 76}, "flags": {}, "order": 25, "mode": 0, "inputs": [{"name": "text", "type": "STRING", "link": 141, "widget": {"name": "text"}}], "outputs": [{"name": "STRING", "type": "STRING", "links": null, "shape": 6}], "properties": {"Node name for S&R": "ShowText|pysssss"}, "widgets_values": ["846703416317767"]}, {"id": 72, "type": "Prompt Parser", "pos": [1130, -75], "size": {"0": 614.8214111328125, "1": 902.8557739257812}, "flags": {}, "order": 31, "mode": 0, "inputs": [{"name": "extra1", "type": "STRING", "link": 137, "widget": {"name": "extra1"}}, {"name": "extra2", "type": "STRING", "link": 127, "widget": {"name": "extra2"}}, {"name": "tags", "type": "STRING", "link": null, "widget": {"name": "tags"}}], "outputs": [{"name": "positive", "type": "STRING", "links": [128], "shape": 3, "slot_index": 0}, {"name": "negative", "type": "STRING", "links": [129], "shape": 3, "slot_index": 1}, {"name": "debug", "type": "STRING", "links": [130], "shape": 3, "slot_index": 2}], "properties": {"Node name for S&R": "Prompt Parser"}, "widgets_values": ["[town|city] full of [[fast|slow] [cars|[bicycles|motorbikes]]|[[loud|cute] [horses|[ducks|chickens]]]]\n\n\nisometric [[*10*pink|blue] bedroom*25*|city at [day|night] with [cars|*100*trains|rockets*300*]], , \n\n, ,,,,\n\n\n! ignored positive prompt\n! @ ignored negative prompt\n\n[*20*fantasy | *20*cyberpunk | *20*alien | *300*futuristic]\n\nhighly detailed, render_with_blender\n\n\n\n?cutaway box\n\n?20% (explosion:1.2)\n\n<extra2>\n  \n3d render cgi @ drawing painting anime cartoon\n\n@ (low quality:1.4), (worst quality:1.4)\n\n\n^\n\neverything after ^ as first in line\nwill\nbe\nignored", "", 970602427254036, "randomize", "", "", ""]}, {"id": 31, "type": "VAEDecode", "pos": [1540, 950], "size": {"0": 210, "1": 46}, "flags": {}, "order": 36, "mode": 0, "inputs": [{"name": "samples", "type": "LATENT", "link": 52}, {"name": "vae", "type": "VAE", "link": 92}], "outputs": [{"name": "IMAGE", "type": "IMAGE", "links": [54, 70, 78, 143], "slot_index": 0}], "properties": {"Node name for S&R": "VAEDecode"}}, {"id": 79, "type": "Reroute", "pos": [1253.6509399414062, 1656.0569458007812], "size": [75, 26], "flags": {}, "order": 40, "mode": 0, "inputs": [{"name": "", "type": "*", "link": 143}], "outputs": [{"name": "", "type": "IMAGE", "links": [144, 145], "slot_index": 0}], "properties": {"showOutputText": false, "horizontal": false}}, {"id": 77, "type": "Image Resize To Height", "pos": [1295, 1799], "size": {"0": 315, "1": 58}, "flags": {}, "order": 42, "mode": 0, "inputs": [{"name": "image", "type": "IMAGE", "link": 144}], "outputs": [{"name": "image", "type": "IMAGE", "links": [146, 148], "shape": 3, "slot_index": 0}], "properties": {"Node name for S&R": "Image Resize To Height"}, "widgets_values": [360]}, {"id": 81, "type": "PreviewImage", "pos": [1301, 2165], "size": {"0": 210, "1": 246}, "flags": {}, "order": 46, "mode": 0, "inputs": [{"name": "images", "type": "IMAGE", "link": 146}], "properties": {"Node name for S&R": "PreviewImage"}}, {"id": 83, "type": "Image size to string", "pos": [1315, 1903], "size": {"0": 168, "1": 26}, "flags": {}, "order": 47, "mode": 0, "inputs": [{"name": "image", "type": "IMAGE", "link": 148}], "outputs": [{"name": "size", "type": "STRING", "links": [149], "shape": 3, "slot_index": 0}], "properties": {"Node name for S&R": "Image size to string"}}, {"id": 82, "type": "PreviewImage", "pos": [1786, 2167], "size": {"0": 210, "1": 246}, "flags": {}, "order": 48, "mode": 0, "inputs": [{"name": "images", "type": "IMAGE", "link": 147}], "properties": {"Node name for S&R": "PreviewImage"}}, {"id": 84, "type": "ShowText|pysssss", "pos": [1304, 1985], "size": {"0": 315, "1": 76}, "flags": {}, "order": 52, "mode": 0, "inputs": [{"name": "text", "type": "STRING", "link": 149, "widget": {"name": "text"}}], "outputs": [{"name": "STRING", "type": "STRING", "links": null, "shape": 6}], "properties": {"Node name for S&R": "ShowText|pysssss"}, "widgets_values": ["240x360"]}, {"id": 86, "type": "ShowText|pysssss", "pos": [1747, 1984], "size": {"0": 315, "1": 76}, "flags": {}, "order": 53, "mode": 0, "inputs": [{"name": "text", "type": "STRING", "link": 150, "widget": {"name": "text"}}], "outputs": [{"name": "STRING", "type": "STRING", "links": null, "shape": 6}], "properties": {"Node name for S&R": "ShowText|pysssss"}, "widgets_values": ["360x540"]}, {"id": 85, "type": "Image size to string", "pos": [1758, 1902], "size": {"0": 168, "1": 26}, "flags": {}, "order": 49, "mode": 0, "inputs": [{"name": "image", "type": "IMAGE", "link": 151}], "outputs": [{"name": "size", "type": "STRING", "links": [150], "shape": 3, "slot_index": 0}], "properties": {"Node name for S&R": "Image size to string"}}, {"id": 80, "type": "Image Resize To Width", "pos": [1756, 1792], "size": {"0": 315, "1": 58}, "flags": {}, "order": 43, "mode": 0, "inputs": [{"name": "image", "type": "IMAGE", "link": 145}], "outputs": [{"name": "image", "type": "IMAGE", "links": [147, 151], "shape": 3, "slot_index": 0}], "properties": {"Node name for S&R": "Image Resize To Width"}, "widgets_values": [360]}, {"id": 67, "type": "Note", "pos": [1847, 24], "size": {"0": 514.4496459960938, "1": 101.7145767211914}, "flags": {}, "order": 5, "mode": 0, "properties": {"text": ""}, "widgets_values": ["This workflow is using ComfyUI-Custom-Scripts also\nhttps://github.com/pythongosssss/ComfyUI-Custom-Scripts"], "color": "#432", "bgcolor": "#653"}, {"id": 90, "type": "ShowText|pysssss", "pos": [739, 1736], "size": {"0": 530.0382690429688, "1": 733.790283203125}, "flags": {}, "order": 22, "mode": 0, "inputs": [{"name": "text", "type": "STRING", "link": 153, "widget": {"name": "text"}}], "outputs": [{"name": "STRING", "type": "STRING", "links": null, "shape": 6}], "properties": {"Node name for S&R": "ShowText|pysssss"}, "widgets_values": ["POSITIVE:\n3D tiny isometric of a Car Wash Bay in a cutaway box with brown and charcoal color, shiny texture, acts as 3d blender art, balancing composition between each texture, trending on ArtStation, trending on CGSociety, Intricate, High Detail, Sharp focus, dramatic, photorealistic painting art by Midjourney\n\nNEGATIVE:\nworst quality, cartoon, blurry, grainy, badly drawn, bad composure, bad composition, 2d, pencil drawn, missing image, embedding:CyberRealistic_Negative-neg.pt\n\nseed:101399550641935\n\nextra1:undefined\nextra2:undefined\n\nRAW:\n3D tiny isometric of a [Coffee Shop|Park Bench|Subway Platform|Bus Stop|Laundromat|Bookstore Aisle|Rooftop Parking Garage|Office Cubicle|Grocery Store Aisle|Public Library|Backyard Garden|Street Corner|Playground Swing|Car Wash Bay|Gas Station Pump|Bridge Overpass|Hospital Waiting Room|Movie Theater Lobby|Shopping Mall Food Court|Beach Boardwalk|School Playground|Barber Shop Chair|Empty Classroom|Farmer's Market Stall|Airport Terminal|Elevator Lobby|Car Dealership Showroom|Fitness Center Treadmill|Post Office Counter|Rooftop Terrace|Pet Store Aisle|Bus Terminal|Rooftop Pool Deck|Bowling Alley Lane|City Bus|Art Gallery|Public Park Gazebo|Parking Lot|Street Fair Vendor Booth|Subway Carriage|University Quad|Beach Pier|Downtown Pedestrian Zone|Street Art Mural|Lakeside Dock|Public Restroom|Picnic Area|Office Lobby|Skate Park|Construction Site|Rooftop Garden|Hardware Store Aisle|DMV Waiting Area|Self-Storage Unit|Rooftop Helipad|Fast Food Restaurant Counter|Flea Market Stall|Auto Repair Shop|Rooftop Greenhouse|City Hall Courtyard|Movie Rental Store Aisle|Wine Cellar|Rooftop Tennis Court|Gas Station Garage|Rooftop Barbecue Area|Taxi Stand|Casino Floor|Apartment Balcony|Beach Volleyball Court|Rooftop Observatory|Arcade Game Room|Amusement Park Midway|Zoo Enclosure|Ice Cream Shop|RV Park|Music Store Aisle|Rooftop Lounge|Skyscraper Lobby|Shopping Mall Escalator|Food Truck|Miniature Golf Course|Rooftop Solarium|Farm Stand|Rooftop Roller Rink|Church Pew|Campground|Rooftop Biergarten|Botanical Garden|Rooftop Dance Floor|Health Food Store Aisle|Community Center Gym|Rooftop Yoga Studio|Suburban Cul-de-sac|Newsstand|Rooftop Pergola|Gas Station Convenience Store|Rooftop Playground|Historic Courthouse Steps|Drive-Thru Window|Rooftop Cinema|Zoo|Zoo gate|Sidewalk|Desert|Swimming pool|Beach|Mystery garden, fog] in a cutaway box with [red|blue|green|yellow|purple|orange|pink|brown|black|white|gray|turquoise|lavender|teal|indigo|maroon|beige|cyan|gold|silver|ruby|emerald|sapphire|periwinkle|olive|magenta|peach|ivory|charcoal|coral|plum] and [red|blue|green|yellow|purple|orange|pink|brown|black|white|gray|turquoise|lavender|teal|indigo|maroon|beige|cyan|gold|silver|ruby|emerald|sapphire|periwinkle|olive|magenta|peach|ivory|charcoal|coral|plum] color\n\nshiny texture, acts as 3d blender art, balancing composition between each texture, trending on ArtStation, trending on CGSociety, Intricate, High Detail, Sharp focus, dramatic, photorealistic painting art by Midjourney, @worst quality, cartoon, blurry, grainy, badly drawn, bad composure, bad composition, 2d, pencil drawn, missing image, embedding:CyberRealistic_Negative-neg.pt\n\n!photo, uhd, 8k, best quality, @worst quality, drawing, monochromatic, anime, painting, embedding:CyberRealistic_Negative-neg.pt\n\n"]}, {"id": 76, "type": "Prompt Parser", "pos": [215, 1735], "size": {"0": 496.478515625, "1": 696.0751953125}, "flags": {}, "order": 17, "mode": 0, "inputs": [{"name": "extra1", "type": "STRING", "link": null, "widget": {"name": "extra1"}}, {"name": "extra2", "type": "STRING", "link": null, "widget": {"name": "extra2"}}, {"name": "tags", "type": "STRING", "link": 152, "widget": {"name": "tags"}, "slot_index": 2}], "outputs": [{"name": "positive", "type": "STRING", "links": null, "shape": 3}, {"name": "negative", "type": "STRING", "links": null, "shape": 3}, {"name": "debug", "type": "STRING", "links": [153], "shape": 3, "slot_index": 2}], "properties": {"Node name for S&R": "Prompt Parser"}, "widgets_values": ["<cutbox> with <2colors>\n\n<cgi>\n\n!<photo>\n\n", "", 677526607604804, "randomize", "", "", ""]}, {"id": 93, "type": "ShowText|pysssss", "pos": [396, 2835], "size": {"0": 315, "1": 58}, "flags": {}, "order": 19, "mode": 2, "inputs": [{"name": "text", "type": "STRING", "link": 155, "widget": {"name": "text"}}], "outputs": [{"name": "STRING", "type": "STRING", "links": null, "shape": 6}], "properties": {"Node name for S&R": "ShowText|pysssss"}, "widgets_values": [""]}, {"id": 92, "type": "PreviewImage", "pos": [-124, 2836], "size": {"0": 210, "1": 26}, "flags": {}, "order": 18, "mode": 2, "inputs": [{"name": "images", "type": "IMAGE", "link": 154}], "properties": {"Node name for S&R": "PreviewImage"}}, {"id": 74, "type": "Any Converter", "pos": [-324, 944], "size": {"0": 210, "1": 134}, "flags": {}, "order": 21, "mode": 0, "inputs": [{"name": "number_", "type": "NUMBER", "link": null}, {"name": "seed_", "type": "SEED", "link": 138}, {"name": "str_", "type": "STR", "link": null}, {"name": "int_", "type": "INT", "link": null, "widget": {"name": "int_"}}, {"name": "float_", "type": "FLOAT", "link": null, "widget": {"name": "float_"}}, {"name": "string_", "type": "STRING", "link": null, "widget": {"name": "string_"}}], "outputs": [{"name": "INT", "type": "INT", "links": [139, 140], "shape": 3, "slot_index": 0}, {"name": "FLOAT", "type": "FLOAT", "links": [156], "shape": 3, "slot_index": 1}, {"name": "NUMBER", "type": "NUMBER", "links": null, "shape": 3}, {"name": "STRING", "type": "STRING", "links": [141], "shape": 3, "slot_index": 3}, {"name": "SEED", "type": "SEED", "links": null, "shape": 3}, {"name": "STR", "type": "STR", "links": null, "shape": 3}], "properties": {"Node name for S&R": "Any Converter"}, "widgets_values": [0, 0, ""]}, {"id": 95, "type": "Any Converter", "pos": [-641, 1235], "size": {"0": 210, "1": 134}, "flags": {}, "order": 24, "mode": 0, "inputs": [{"name": "number_", "type": "NUMBER", "link": null}, {"name": "seed_", "type": "SEED", "link": null}, {"name": "str_", "type": "STR", "link": null}, {"name": "int_", "type": "INT", "link": null, "widget": {"name": "int_"}}, {"name": "float_", "type": "FLOAT", "link": 156, "widget": {"name": "float_"}}, {"name": "string_", "type": "STRING", "link": null, "widget": {"name": "string_"}}], "outputs": [{"name": "INT", "type": "INT", "links": [], "shape": 3, "slot_index": 0}, {"name": "FLOAT", "type": "FLOAT", "links": null, "shape": 3, "slot_index": 1}, {"name": "NUMBER", "type": "NUMBER", "links": null, "shape": 3}, {"name": "STRING", "type": "STRING", "links": [157], "shape": 3, "slot_index": 3}, {"name": "SEED", "type": "SEED", "links": null, "shape": 3}, {"name": "STR", "type": "STR", "links": null, "shape": 3}], "properties": {"Node name for S&R": "Any Converter"}, "widgets_values": [0, 0, ""]}, {"id": 96, "type": "ShowText|pysssss", "pos": [-363, 1256], "size": {"0": 315, "1": 76}, "flags": {}, "order": 28, "mode": 0, "inputs": [{"name": "text", "type": "STRING", "link": 157, "widget": {"name": "text"}}], "outputs": [{"name": "STRING", "type": "STRING", "links": null, "shape": 6}], "properties": {"Node name for S&R": "ShowText|pysssss"}, "widgets_values": ["846703416317767.0"]}, {"id": 68, "type": "Note", "pos": [2965, 81], "size": {"0": 514.4496459960938, "1": 101.7145767211914}, "flags": {}, "order": 6, "mode": 0, "properties": {"text": ""}, "widgets_values": ["Image is upscaled 4x to 2048. Then downscaled to specified resolution (1280)\n\n2048*0.625 = 1280"], "color": "#432", "bgcolor": "#653"}, {"id": 47, "type": "Upscale Model Loader", "pos": [2433, 96], "size": {"0": 315, "1": 78}, "flags": {}, "order": 7, "mode": 0, "outputs": [{"name": "UPSCALE_MODEL", "type": "UPSCALE_MODEL", "links": [69], "shape": 3}, {"name": "MODEL_NAME_TEXT", "type": "STRING", "links": null, "shape": 3}], "properties": {"Node name for S&R": "Upscale Model Loader"}, "widgets_values": ["4x-UltraSharp.pth"]}, {"id": 46, "type": "ImageUpscaleWithModel", "pos": [2455, 224], "size": {"0": 241.79998779296875, "1": 46}, "flags": {}, "order": 38, "mode": 0, "inputs": [{"name": "upscale_model", "type": "UPSCALE_MODEL", "link": 69, "slot_index": 0}, {"name": "image", "type": "IMAGE", "link": 70}], "outputs": [{"name": "IMAGE", "type": "IMAGE", "links": [71, 75], "shape": 3, "slot_index": 0}], "properties": {"Node name for S&R": "ImageUpscaleWithModel"}}, {"id": 69, "type": "Any Converter", "pos": [2871, 391], "size": {"0": 210, "1": 206}, "flags": {"collapsed": true}, "order": 45, "mode": 0, "inputs": [{"name": "int_", "type": "INT", "link": null}, {"name": "float_", "type": "FLOAT", "link": 121}, {"name": "number_", "type": "NUMBER", "link": null}, {"name": "string_", "type": "STRING", "link": null}, {"name": "seed_", "type": "SEED", "link": null}], "outputs": [{"name": "INT", "type": "INT", "links": [], "shape": 3, "slot_index": 0}, {"name": "FLOAT", "type": "FLOAT", "links": null, "shape": 3}, {"name": "NUMBER", "type": "NUMBER", "links": null, "shape": 3}, {"name": "STRING", "type": "STRING", "links": [122], "shape": 3, "slot_index": 3}, {"name": "SEED", "type": "SEED", "links": null, "shape": 3, "slot_index": 4}, {"name": "STR", "type": "STR", "links": null, "shape": 3}], "properties": {"Node name for S&R": "Any Converter"}, "widgets_values": [0, 0, ""]}, {"id": 71, "type": "ShowText|pysssss", "pos": [3179, 390], "size": {"0": 210, "1": 76}, "flags": {}, "order": 51, "mode": 0, "inputs": [{"name": "text", "type": "STRING", "link": 122}], "outputs": [{"name": "STRING", "type": "STRING", "links": null, "shape": 6}], "properties": {"Node name for S&R": "ShowText|pysssss"}, "widgets_values": ["0"]}, {"id": 45, "type": "Calculate Upscale", "pos": [2453, 336], "size": {"0": 267.9018859863281, "1": 102}, "flags": {}, "order": 41, "mode": 0, "inputs": [{"name": "image", "type": "IMAGE", "link": 71}], "outputs": [{"name": "tile_size", "type": "INT", "links": null, "shape": 3, "slot_index": 0}, {"name": "upscale", "type": "FLOAT", "links": [72, 121], "shape": 3, "slot_index": 1}], "properties": {"Node name for S&R": "Calculate Upscale"}, "widgets_values": [1280, 93]}, {"id": 48, "type": "ImageScaleBy", "pos": [2432, 488], "size": {"0": 315, "1": 82}, "flags": {}, "order": 44, "mode": 0, "inputs": [{"name": "image", "type": "IMAGE", "link": 75}, {"name": "scale_by", "type": "FLOAT", "link": 72, "widget": {"name": "scale_by"}}], "outputs": [{"name": "IMAGE", "type": "IMAGE", "links": [110], "shape": 3, "slot_index": 0}], "properties": {"Node name for S&R": "ImageScaleBy"}, "widgets_values": ["area", 1]}, {"id": 54, "type": "ShowText|pysssss", "pos": [3132, 749], "size": {"0": 210, "1": 76}, "flags": {}, "order": 57, "mode": 0, "inputs": [{"name": "text", "type": "STRING", "link": 160}], "outputs": [{"name": "STRING", "type": "STRING", "links": null, "shape": 6}], "properties": {"Node name for S&R": "ShowText|pysssss"}, "widgets_values": ["undefined, undefined, 512x768, undefined, 853x1280, undefined"]}, {"id": 97, "type": "Multi Text Merge", "pos": [2834, 750], "size": {"0": 400, "1": 202}, "flags": {"collapsed": true}, "order": 56, "mode": 0, "inputs": [{"name": "s1", "type": "STRING", "link": null, "widget": {"name": "s1"}}, {"name": "s2", "type": "STRING", "link": null, "widget": {"name": "s2"}}, {"name": "s3", "type": "STRING", "link": 158, "widget": {"name": "s3"}}, {"name": "s4", "type": "STRING", "link": null, "widget": {"name": "s4"}}, {"name": "s5", "type": "STRING", "link": 159, "widget": {"name": "s5"}}, {"name": "s6", "type": "STRING", "link": null, "widget": {"name": "s6"}}], "outputs": [{"name": "STRING", "type": "STRING", "links": [160], "shape": 3, "slot_index": 0}], "properties": {"Node name for S&R": "Multi Text Merge"}, "widgets_values": [", ", "", "", "", "", "", ""]}, {"id": 52, "type": "Image size to string", "pos": [2502, 644], "size": {"0": 210, "1": 26}, "flags": {"collapsed": false}, "order": 39, "mode": 0, "inputs": [{"name": "image", "type": "IMAGE", "link": 78, "slot_index": 0}], "outputs": [{"name": "size", "type": "STRING", "links": [158], "shape": 3, "slot_index": 0}], "properties": {"Node name for S&R": "Image size to string"}}, {"id": 51, "type": "Image size to string", "pos": [2500, 726], "size": {"0": 210, "1": 26}, "flags": {}, "order": 55, "mode": 0, "inputs": [{"name": "image", "type": "IMAGE", "link": 77}], "outputs": [{"name": "size", "type": "STRING", "links": [159], "shape": 3, "slot_index": 0}], "properties": {"Node name for S&R": "Image size to string"}}, {"id": 88, "type": "Text Multiline", "pos": [-588, 1732], "size": {"0": 783.50146484375, "1": 687.8680419921875}, "flags": {}, "order": 8, "mode": 0, "outputs": [{"name": "STRING", "type": "STRING", "links": [152], "shape": 3, "slot_index": 0}], "properties": {"Node name for S&R": "Text Multiline"}, "widgets_values": [">>>ph\nbest quality @ worst quality\n\n>>>photo\nphoto, uhd, 8k, best quality\n@worst quality, drawing, monochromatic, anime, painting\nembedding:CyberRealistic_Negative-neg.pt\n\n>>>cgi\nshiny texture, acts as 3d blender art, balancing composition between each texture, trending on ArtStation, trending on CGSociety, Intricate, High Detail, Sharp focus, dramatic, photorealistic painting art by Midjourney\n@worst quality, cartoon, blurry, grainy, badly drawn, bad composure, bad composition, 2d, pencil drawn, missing image\nembedding:CyberRealistic_Negative-neg.pt\n\n\n>>>cutbox\n3D tiny isometric of a <place> in a cutaway box\n\n\n>>>2colors\n<color> and <color> color\n\n>>>color\n[red|blue|green|yellow|purple|orange|pink|brown|black|white|gray|turquoise|lavender|teal|indigo|maroon|beige|cyan|gold|silver|ruby|emerald|sapphire|periwinkle|olive|magenta|peach|ivory|charcoal|coral|plum]\n\n\n>>>place\n[Coffee Shop|Park Bench|Subway Platform|Bus Stop|Laundromat|Bookstore Aisle|Rooftop Parking Garage|Office Cubicle|Grocery Store Aisle|Public Library|Backyard Garden|Street Corner|Playground Swing|Car Wash Bay|Gas Station Pump|Bridge Overpass|Hospital Waiting Room|Movie Theater Lobby|Shopping Mall Food Court|Beach Boardwalk|School Playground|Barber Shop Chair|Empty Classroom|Farmer's Market Stall|Airport Terminal|Elevator Lobby|Car Dealership Showroom|Fitness Center Treadmill|Post Office Counter|Rooftop Terrace|Pet Store Aisle|Bus Terminal|Rooftop Pool Deck|Bowling Alley Lane|City Bus|Art Gallery|Public Park Gazebo|Parking Lot|Street Fair Vendor Booth|Subway Carriage|University Quad|Beach Pier|Downtown Pedestrian Zone|Street Art Mural|Lakeside Dock|Public Restroom|Picnic Area|Office Lobby|Skate Park|Construction Site|Rooftop Garden|Hardware Store Aisle|DMV Waiting Area|Self-Storage Unit|Rooftop Helipad|Fast Food Restaurant Counter|Flea Market Stall|Auto Repair Shop|Rooftop Greenhouse|City Hall Courtyard|Movie Rental Store Aisle|Wine Cellar|Rooftop Tennis Court|Gas Station Garage|Rooftop Barbecue Area|Taxi Stand|Casino Floor|Apartment Balcony|Beach Volleyball Court|Rooftop Observatory|Arcade Game Room|Amusement Park Midway|Zoo Enclosure|Ice Cream Shop|RV Park|Music Store Aisle|Rooftop Lounge|Skyscraper Lobby|Shopping Mall Escalator|Food Truck|Miniature Golf Course|Rooftop Solarium|Farm Stand|Rooftop Roller Rink|Church Pew|Campground|Rooftop Biergarten|Botanical Garden|Rooftop Dance Floor|Health Food Store Aisle|Community Center Gym|Rooftop Yoga Studio|Suburban Cul-de-sac|Newsstand|Rooftop Pergola|Gas Station Convenience Store|Rooftop Playground|Historic Courthouse Steps|Drive-Thru Window|Rooftop Cinema|Zoo|Zoo gate|Sidewalk|Desert|Swimming pool|Beach|Mystery garden, fog]\n\n"]}, {"id": 91, "type": "Load Random Image", "pos": [-492, 2851], "size": {"0": 315, "1": 126}, "flags": {}, "order": 9, "mode": 2, "outputs": [{"name": "image", "type": "IMAGE", "links": [154], "shape": 3, "slot_index": 0}, {"name": "file name", "type": "STRING", "links": [155], "shape": 3, "slot_index": 1}], "properties": {"Node name for S&R": "Load Random Image"}, "widgets_values": ["C:\\ComfyUI\\ComfyUI\\output", 423206889117594, "randomize"]}, {"id": 61, "type": "EmptyLatentImage", "pos": [734, 1154], "size": {"0": 315, "1": 106}, "flags": {}, "order": 10, "mode": 0, "outputs": [{"name": "LATENT", "type": "LATENT", "links": [95], "shape": 3}], "properties": {"Node name for S&R": "EmptyLatentImage"}, "widgets_values": [512, 768, 1]}, {"id": 73, "type": "Multi Text Merge", "pos": [551, 86], "size": {"0": 210, "1": 158}, "flags": {}, "order": 30, "mode": 0, "inputs": [{"name": "s1", "type": "STRING", "link": 133, "widget": {"name": "s1"}}, {"name": "s2", "type": "STRING", "link": 134, "widget": {"name": "s2"}}, {"name": "s3", "type": "STRING", "link": null, "widget": {"name": "s3"}}, {"name": "s4", "type": "STRING", "link": null, "widget": {"name": "s4"}}, {"name": "s5", "type": "STRING", "link": 135, "widget": {"name": "s5"}}, {"name": "s6", "type": "STRING", "link": 136, "widget": {"name": "s6"}}], "outputs": [{"name": "STRING", "type": "STRING", "links": [137], "shape": 3, "slot_index": 0}], "properties": {"Node name for S&R": "Multi Text Merge"}, "widgets_values": [", ", "", "", "", "", "", ""]}, {"id": 87, "type": "Note", "pos": [1368, 1560], "size": {"0": 514.4496459960938, "1": 101.7145767211914}, "flags": {}, "order": 11, "mode": 0, "properties": {"text": ""}, "widgets_values": ["Images will be resized (by lanczos) to keep proportion"], "color": "#432", "bgcolor": "#653"}, {"id": 94, "type": "Note", "pos": [-328, 2535], "size": {"0": 464.9837341308594, "1": 124.00586700439453}, "flags": {}, "order": 12, "mode": 0, "properties": {"text": ""}, "widgets_values": ["Will load one random image from folder.\n\nSet your images folder path and unmute"], "color": "#432", "bgcolor": "#653"}, {"id": 99, "type": "Note", "pos": [-358, 3064], "size": {"0": 464.9837341308594, "1": 124.00586700439453}, "flags": {}, "order": 13, "mode": 0, "properties": {"text": ""}, "widgets_values": ["Most simplest text loader. Just provide full path to text file."], "color": "#432", "bgcolor": "#653"}, {"id": 98, "type": "Load Text", "pos": [-344, 3251], "size": {"0": 315, "1": 58}, "flags": {}, "order": 14, "mode": 2, "outputs": [{"name": "STRING", "type": "STRING", "links": [161], "shape": 3, "slot_index": 0}], "properties": {"Node name for S&R": "Load Text"}, "widgets_values": [""]}, {"id": 100, "type": "ShowText|pysssss", "pos": [133, 3233], "size": {"0": 315, "1": 58}, "flags": {}, "order": 20, "mode": 2, "inputs": [{"name": "text", "type": "STRING", "link": 161, "widget": {"name": "text"}}], "outputs": [{"name": "STRING", "type": "STRING", "links": null, "shape": 6}], "properties": {"Node name for S&R": "ShowText|pysssss"}, "widgets_values": [""]}, {"id": 89, "type": "Note", "pos": [192, 1335], "size": {"0": 514.9171752929688, "1": 320.1346435546875}, "flags": {}, "order": 15, "mode": 0, "properties": {"text": ""}, "widgets_values": ["Set tag by \">>>YOUR_TAG\" + lines below as content\n\nIf you set tags by tags_file (full path) then it will be used instead of tags input.\n\nYou can use tags in tags only before you define those inner tags.\n\nDon't use more that 1 negative \"@\" by tag.\n\nAll tag lines will be joined into one line by \",\""], "color": "#432", "bgcolor": "#653"}, {"id": 65, "type": "Seed", "pos": [-745, 953], "size": {"0": 315, "1": 142}, "flags": {}, "order": 16, "mode": 0, "outputs": [{"name": "SEED", "type": "SEED", "links": [138], "shape": 3, "slot_index": 0}, {"name": "number", "type": "NUMBER", "links": null, "shape": 3}, {"name": "float", "type": "FLOAT", "links": null, "shape": 3}, {"name": "int", "type": "INT", "links": null, "shape": 3}], "properties": {"Node name for S&R": "Seed"}, "widgets_values": [846703416317768, "increment"]}], "links": [[52, 30, 0, 31, 0, "LATENT"], [54, 31, 0, 32, 0, "IMAGE"], [69, 47, 0, 46, 0, "UPSCALE_MODEL"], [70, 31, 0, 46, 1, "IMAGE"], [71, 46, 0, 45, 0, "IMAGE"], [72, 45, 1, 48, 1, "FLOAT"], [74, 50, 0, 49, 0, "IMAGE"], [75, 46, 0, 48, 0, "IMAGE"], [77, 50, 0, 51, 0, "IMAGE"], [78, 31, 0, 52, 0, "IMAGE"], [88, 60, 1, 58, 0, "CLIP"], [89, 60, 1, 59, 0, "CLIP"], [90, 59, 0, 30, 2, "CONDITIONING"], [91, 58, 0, 30, 1, "CONDITIONING"], [92, 60, 2, 31, 1, "VAE"], [93, 60, 0, 30, 0, "MODEL"], [95, 61, 0, 30, 3, "LATENT"], [101, 43, 0, 63, 0, "STRING"], [110, 48, 0, 50, 0, "*"], [117, 62, 0, 43, 0, "INT"], [118, 62, 0, 37, 0, "INT"], [121, 45, 1, 69, 1, "FLOAT"], [122, 69, 3, 71, 0, "STRING"], [127, 39, 0, 72, 1, "STRING"], [128, 72, 0, 58, 1, "STRING"], [129, 72, 1, 59, 1, "STRING"], [130, 72, 2, 34, 0, "STRING"], [133, 37, 0, 73, 0, "STRING"], [134, 40, 0, 73, 1, "STRING"], [135, 42, 0, 73, 4, "STRING"], [136, 43, 0, 73, 5, "STRING"], [137, 73, 0, 72, 0, "STRING"], [138, 65, 0, 74, 1, "SEED"], [139, 74, 0, 62, 0, "*"], [140, 74, 0, 30, 4, "INT"], [141, 74, 3, 75, 0, "STRING"], [143, 31, 0, 79, 0, "*"], [144, 79, 0, 77, 0, "IMAGE"], [145, 79, 0, 80, 0, "IMAGE"], [146, 77, 0, 81, 0, "IMAGE"], [147, 80, 0, 82, 0, "IMAGE"], [148, 77, 0, 83, 0, "IMAGE"], [149, 83, 0, 84, 0, "STRING"], [150, 85, 0, 86, 0, "STRING"], [151, 80, 0, 85, 0, "IMAGE"], [152, 88, 0, 76, 2, "STRING"], [153, 76, 2, 90, 0, "STRING"], [154, 91, 0, 92, 0, "IMAGE"], [155, 91, 1, 93, 0, "STRING"], [156, 74, 1, 95, 4, "FLOAT"], [157, 95, 3, 96, 0, "STRING"], [158, 52, 0, 97, 2, "STRING"], [159, 51, 0, 97, 4, "STRING"], [160, 97, 0, 54, 0, "STRING"], [161, 98, 0, 100, 0, "STRING"]], "groups": [], "config": {}, "extra": {}, "version": 0.4}
+{
+  "last_node_id": 109,
+  "last_link_id": 170,
+  "nodes": [
+    {
+      "id": 58,
+      "type": "CLIPTextEncode",
+      "pos": [
+        766,
+        798
+      ],
+      "size": {
+        "0": 210,
+        "1": 54
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 34,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 88
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 128,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            91
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 59,
+      "type": "CLIPTextEncode",
+      "pos": [
+        757,
+        904
+      ],
+      "size": {
+        "0": 210,
+        "1": 54
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 35,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 89
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 129,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            90
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 50,
+      "type": "Reroute",
+      "pos": [
+        2434,
+        867
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 52,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 110
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "IMAGE",
+          "links": [
+            74,
+            77
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 30,
+      "type": "KSampler",
+      "pos": [
+        1200,
+        950
+      ],
+      "size": {
+        "0": 315,
+        "1": 262
+      },
+      "flags": {},
+      "order": 37,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 93
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 91
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 90
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 95,
+          "slot_index": 3
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "link": 140,
+          "widget": {
+            "name": "seed"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            52
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        377,
+        "fixed",
+        20,
+        6,
+        "dpmpp_2m",
+        "karras",
+        1
+      ]
+    },
+    {
+      "id": 39,
+      "type": "Text Multiline",
+      "pos": [
+        630,
+        571
+      ],
+      "size": {
+        "0": 404.714599609375,
+        "1": 109.89520263671875
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            127
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Text Multiline"
+      },
+      "widgets_values": [
+        "@em:CyberRealistic_Negative-neg\n!@em:ng_deepnegative_v1_75t"
+      ]
+    },
+    {
+      "id": 37,
+      "type": "Random Line",
+      "pos": [
+        -34,
+        62
+      ],
+      "size": {
+        "0": 210,
+        "1": 137.49395751953125
+      },
+      "flags": {},
+      "order": 29,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "seed",
+          "type": "INT",
+          "link": 118,
+          "widget": {
+            "name": "seed"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            133
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Random Line"
+      },
+      "widgets_values": [
+        "[cute|sweet]\n[scary|creepy]\nsmall\ngigantic",
+        469,
+        "increment"
+      ]
+    },
+    {
+      "id": 40,
+      "type": "Text Multiline",
+      "pos": [
+        -215,
+        243
+      ],
+      "size": {
+        "0": 404.714599609375,
+        "1": 109.89520263671875
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            134
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "title": "style1",
+      "properties": {
+        "Node name for S&R": "Text Multiline"
+      },
+      "widgets_values": [
+        "style1POS @ style1NEG"
+      ]
+    },
+    {
+      "id": 42,
+      "type": "Text Multiline",
+      "pos": [
+        -215,
+        404
+      ],
+      "size": {
+        "0": 404.714599609375,
+        "1": 109.89520263671875
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            135
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "title": "style2",
+      "properties": {
+        "Node name for S&R": "Text Multiline"
+      },
+      "widgets_values": [
+        "style2POS\n@ style2NEG1, style2NEG2"
+      ]
+    },
+    {
+      "id": 44,
+      "type": "Text Multiline",
+      "pos": [
+        -215,
+        564
+      ],
+      "size": {
+        "0": 404.714599609375,
+        "1": 109.89520263671875
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "title": "style3",
+      "properties": {
+        "Node name for S&R": "Text Multiline"
+      },
+      "widgets_values": [
+        "style3POS"
+      ]
+    },
+    {
+      "id": 62,
+      "type": "Reroute",
+      "pos": [
+        -594,
+        587
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 139,
+          "widget": {
+            "name": "value"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "INT",
+          "links": [
+            117,
+            118
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 31,
+      "type": "VAEDecode",
+      "pos": [
+        1540,
+        950
+      ],
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {},
+      "order": 38,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 52
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 92
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            54,
+            70,
+            78,
+            143
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      }
+    },
+    {
+      "id": 79,
+      "type": "Reroute",
+      "pos": [
+        1253.6509399414062,
+        1656.0569458007812
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 42,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 143
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "IMAGE",
+          "links": [
+            144,
+            145
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 77,
+      "type": "Image Resize To Height",
+      "pos": [
+        1295,
+        1799
+      ],
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {},
+      "order": 44,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 144
+        }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            146,
+            148
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Image Resize To Height"
+      },
+      "widgets_values": [
+        360
+      ]
+    },
+    {
+      "id": 81,
+      "type": "PreviewImage",
+      "pos": [
+        1301,
+        2165
+      ],
+      "size": {
+        "0": 210,
+        "1": 246
+      },
+      "flags": {},
+      "order": 48,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 146
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    },
+    {
+      "id": 80,
+      "type": "Image Resize To Width",
+      "pos": [
+        1756,
+        1792
+      ],
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {},
+      "order": 45,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 145
+        }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            147,
+            151
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Image Resize To Width"
+      },
+      "widgets_values": [
+        360
+      ]
+    },
+    {
+      "id": 90,
+      "type": "ShowText|pysssss",
+      "pos": [
+        739,
+        1736
+      ],
+      "size": {
+        "0": 530.0382690429688,
+        "1": 733.790283203125
+      },
+      "flags": {},
+      "order": 24,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 153,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        [
+          "POSITIVE:\n3D tiny isometric of a Rooftop Playground in a cutaway box with plum and olive color, shiny texture, acts as 3d blender art, balancing composition between each texture, trending on ArtStation, trending on CGSociety, Intricate, High Detail, Sharp focus, dramatic, photorealistic painting art by Midjourney\n\nNEGATIVE:\nworst quality, cartoon, blurry, grainy, badly drawn, bad composure, bad composition, 2d, pencil drawn, missing image, embedding:CyberRealistic_Negative-neg.pt\n\nseed:663784148179835\n\nextra1:undefined\nextra2:undefined\n\nRAW:\n3D tiny isometric of a [Coffee Shop|Park Bench|Subway Platform|Bus Stop|Laundromat|Bookstore Aisle|Rooftop Parking Garage|Office Cubicle|Grocery Store Aisle|Public Library|Backyard Garden|Street Corner|Playground Swing|Car Wash Bay|Gas Station Pump|Bridge Overpass|Hospital Waiting Room|Movie Theater Lobby|Shopping Mall Food Court|Beach Boardwalk|School Playground|Barber Shop Chair|Empty Classroom|Farmer's Market Stall|Airport Terminal|Elevator Lobby|Car Dealership Showroom|Fitness Center Treadmill|Post Office Counter|Rooftop Terrace|Pet Store Aisle|Bus Terminal|Rooftop Pool Deck|Bowling Alley Lane|City Bus|Art Gallery|Public Park Gazebo|Parking Lot|Street Fair Vendor Booth|Subway Carriage|University Quad|Beach Pier|Downtown Pedestrian Zone|Street Art Mural|Lakeside Dock|Public Restroom|Picnic Area|Office Lobby|Skate Park|Construction Site|Rooftop Garden|Hardware Store Aisle|DMV Waiting Area|Self-Storage Unit|Rooftop Helipad|Fast Food Restaurant Counter|Flea Market Stall|Auto Repair Shop|Rooftop Greenhouse|City Hall Courtyard|Movie Rental Store Aisle|Wine Cellar|Rooftop Tennis Court|Gas Station Garage|Rooftop Barbecue Area|Taxi Stand|Casino Floor|Apartment Balcony|Beach Volleyball Court|Rooftop Observatory|Arcade Game Room|Amusement Park Midway|Zoo Enclosure|Ice Cream Shop|RV Park|Music Store Aisle|Rooftop Lounge|Skyscraper Lobby|Shopping Mall Escalator|Food Truck|Miniature Golf Course|Rooftop Solarium|Farm Stand|Rooftop Roller Rink|Church Pew|Campground|Rooftop Biergarten|Botanical Garden|Rooftop Dance Floor|Health Food Store Aisle|Community Center Gym|Rooftop Yoga Studio|Suburban Cul-de-sac|Newsstand|Rooftop Pergola|Gas Station Convenience Store|Rooftop Playground|Historic Courthouse Steps|Drive-Thru Window|Rooftop Cinema|Zoo|Zoo gate|Sidewalk|Desert|Swimming pool|Beach|Mystery garden, fog] in a cutaway box with [red|blue|green|yellow|purple|orange|pink|brown|black|white|gray|turquoise|lavender|teal|indigo|maroon|beige|cyan|gold|silver|ruby|emerald|sapphire|periwinkle|olive|magenta|peach|ivory|charcoal|coral|plum] and [red|blue|green|yellow|purple|orange|pink|brown|black|white|gray|turquoise|lavender|teal|indigo|maroon|beige|cyan|gold|silver|ruby|emerald|sapphire|periwinkle|olive|magenta|peach|ivory|charcoal|coral|plum] color\n\nshiny texture, acts as 3d blender art, balancing composition between each texture, trending on ArtStation, trending on CGSociety, Intricate, High Detail, Sharp focus, dramatic, photorealistic painting art by Midjourney, @worst quality, cartoon, blurry, grainy, badly drawn, bad composure, bad composition, 2d, pencil drawn, missing image, embedding:CyberRealistic_Negative-neg.pt\n\n!photo, uhd, 8k, best quality, @worst quality, drawing, monochromatic, anime, painting, embedding:CyberRealistic_Negative-neg.pt\n\n"
+        ],
+        "POSITIVE:\n3D tiny isometric of a Amusement Park Midway in a cutaway box with purple and magenta color, shiny texture, acts as 3d blender art, balancing composition between each texture, trending on ArtStation, trending on CGSociety, Intricate, High Detail, Sharp focus, dramatic, photorealistic painting art by Midjourney\n\nNEGATIVE:\nworst quality, cartoon, blurry, grainy, badly drawn, bad composure, bad composition, 2d, pencil drawn, missing image, embedding:CyberRealistic_Negative-neg.pt\n\nseed:1092767390831938\n\nextra1:<none>\nextra2:<none>\n\nRAW:\n3D tiny isometric of a [Coffee Shop|Park Bench|Subway Platform|Bus Stop|Laundromat|Bookstore Aisle|Rooftop Parking Garage|Office Cubicle|Grocery Store Aisle|Public Library|Backyard Garden|Street Corner|Playground Swing|Car Wash Bay|Gas Station Pump|Bridge Overpass|Hospital Waiting Room|Movie Theater Lobby|Shopping Mall Food Court|Beach Boardwalk|School Playground|Barber Shop Chair|Empty Classroom|Farmer's Market Stall|Airport Terminal|Elevator Lobby|Car Dealership Showroom|Fitness Center Treadmill|Post Office Counter|Rooftop Terrace|Pet Store Aisle|Bus Terminal|Rooftop Pool Deck|Bowling Alley Lane|City Bus|Art Gallery|Public Park Gazebo|Parking Lot|Street Fair Vendor Booth|Subway Carriage|University Quad|Beach Pier|Downtown Pedestrian Zone|Street Art Mural|Lakeside Dock|Public Restroom|Picnic Area|Office Lobby|Skate Park|Construction Site|Rooftop Garden|Hardware Store Aisle|DMV Waiting Area|Self-Storage Unit|Rooftop Helipad|Fast Food Restaurant Counter|Flea Market Stall|Auto Repair Shop|Rooftop Greenhouse|City Hall Courtyard|Movie Rental Store Aisle|Wine Cellar|Rooftop Tennis Court|Gas Station Garage|Rooftop Barbecue Area|Taxi Stand|Casino Floor|Apartment Balcony|Beach Volleyball Court|Rooftop Observatory|Arcade Game Room|Amusement Park Midway|Zoo Enclosure|Ice Cream Shop|RV Park|Music Store Aisle|Rooftop Lounge|Skyscraper Lobby|Shopping Mall Escalator|Food Truck|Miniature Golf Course|Rooftop Solarium|Farm Stand|Rooftop Roller Rink|Church Pew|Campground|Rooftop Biergarten|Botanical Garden|Rooftop Dance Floor|Health Food Store Aisle|Community Center Gym|Rooftop Yoga Studio|Suburban Cul-de-sac|Newsstand|Rooftop Pergola|Gas Station Convenience Store|Rooftop Playground|Historic Courthouse Steps|Drive-Thru Window|Rooftop Cinema|Zoo|Zoo gate|Sidewalk|Desert|Swimming pool|Beach|Mystery garden, fog] in a cutaway box with [red|blue|green|yellow|purple|orange|pink|brown|black|white|gray|turquoise|lavender|teal|indigo|maroon|beige|cyan|gold|silver|ruby|emerald|sapphire|periwinkle|olive|magenta|peach|ivory|charcoal|coral|plum] and [red|blue|green|yellow|purple|orange|pink|brown|black|white|gray|turquoise|lavender|teal|indigo|maroon|beige|cyan|gold|silver|ruby|emerald|sapphire|periwinkle|olive|magenta|peach|ivory|charcoal|coral|plum] color\n\nshiny texture, acts as 3d blender art, balancing composition between each texture, trending on ArtStation, trending on CGSociety, Intricate, High Detail, Sharp focus, dramatic, photorealistic painting art by Midjourney, @worst quality, cartoon, blurry, grainy, badly drawn, bad composure, bad composition, 2d, pencil drawn, missing image, embedding:CyberRealistic_Negative-neg.pt\n\n!photo, uhd, 8k, best quality, @worst quality, drawing, monochromatic, anime, painting, embedding:CyberRealistic_Negative-neg.pt\n\n"
+      ]
+    },
+    {
+      "id": 76,
+      "type": "Prompt Parser",
+      "pos": [
+        215,
+        1735
+      ],
+      "size": {
+        "0": 496.478515625,
+        "1": 696.0751953125
+      },
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "extra1",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "extra1"
+          }
+        },
+        {
+          "name": "extra2",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "extra2"
+          }
+        },
+        {
+          "name": "tags",
+          "type": "STRING",
+          "link": 152,
+          "widget": {
+            "name": "tags"
+          },
+          "slot_index": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "negative",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "debug",
+          "type": "STRING",
+          "links": [
+            153
+          ],
+          "shape": 3,
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Prompt Parser"
+      },
+      "widgets_values": [
+        "<cutbox> with <2colors>\n\n<cgi>\n\n!<photo>\n\n",
+        "",
+        408734696868619,
+        "randomize",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 93,
+      "type": "ShowText|pysssss",
+      "pos": [
+        396,
+        2835
+      ],
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {},
+      "order": 23,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 155,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 74,
+      "type": "Any Converter",
+      "pos": [
+        -324,
+        944
+      ],
+      "size": {
+        "0": 210,
+        "1": 134
+      },
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "number_",
+          "type": "NUMBER",
+          "link": null
+        },
+        {
+          "name": "seed_",
+          "type": "SEED",
+          "link": 138
+        },
+        {
+          "name": "str_",
+          "type": "STR",
+          "link": null
+        },
+        {
+          "name": "int_",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "int_"
+          }
+        },
+        {
+          "name": "float_",
+          "type": "FLOAT",
+          "link": null,
+          "widget": {
+            "name": "float_"
+          }
+        },
+        {
+          "name": "string_",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "string_"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            139,
+            140
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": [
+            156
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "NUMBER",
+          "type": "NUMBER",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            141
+          ],
+          "shape": 3,
+          "slot_index": 3
+        },
+        {
+          "name": "SEED",
+          "type": "SEED",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "STR",
+          "type": "STR",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Any Converter"
+      },
+      "widgets_values": [
+        0,
+        0,
+        ""
+      ]
+    },
+    {
+      "id": 95,
+      "type": "Any Converter",
+      "pos": [
+        -641,
+        1235
+      ],
+      "size": {
+        "0": 210,
+        "1": 134
+      },
+      "flags": {},
+      "order": 26,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "number_",
+          "type": "NUMBER",
+          "link": null
+        },
+        {
+          "name": "seed_",
+          "type": "SEED",
+          "link": null
+        },
+        {
+          "name": "str_",
+          "type": "STR",
+          "link": null
+        },
+        {
+          "name": "int_",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "int_"
+          }
+        },
+        {
+          "name": "float_",
+          "type": "FLOAT",
+          "link": 156,
+          "widget": {
+            "name": "float_"
+          }
+        },
+        {
+          "name": "string_",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "string_"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": null,
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "NUMBER",
+          "type": "NUMBER",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            157
+          ],
+          "shape": 3,
+          "slot_index": 3
+        },
+        {
+          "name": "SEED",
+          "type": "SEED",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "STR",
+          "type": "STR",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Any Converter"
+      },
+      "widgets_values": [
+        0,
+        0,
+        ""
+      ]
+    },
+    {
+      "id": 68,
+      "type": "Note",
+      "pos": [
+        2965,
+        81
+      ],
+      "size": {
+        "0": 514.4496459960938,
+        "1": 101.7145767211914
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Image is upscaled 4x to 2048. Then downscaled to specified resolution (1280)\n\n2048*0.625 = 1280"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 47,
+      "type": "Upscale Model Loader",
+      "pos": [
+        2433,
+        96
+      ],
+      "size": {
+        "0": 315,
+        "1": 78
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "UPSCALE_MODEL",
+          "type": "UPSCALE_MODEL",
+          "links": [
+            69
+          ],
+          "shape": 3
+        },
+        {
+          "name": "MODEL_NAME_TEXT",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Upscale Model Loader"
+      },
+      "widgets_values": [
+        "4x-UltraSharp.pth"
+      ]
+    },
+    {
+      "id": 46,
+      "type": "ImageUpscaleWithModel",
+      "pos": [
+        2455,
+        224
+      ],
+      "size": {
+        "0": 241.79998779296875,
+        "1": 46
+      },
+      "flags": {},
+      "order": 40,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "upscale_model",
+          "type": "UPSCALE_MODEL",
+          "link": 69,
+          "slot_index": 0
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 70
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            71,
+            75
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageUpscaleWithModel"
+      }
+    },
+    {
+      "id": 48,
+      "type": "ImageScaleBy",
+      "pos": [
+        2432,
+        488
+      ],
+      "size": {
+        "0": 315,
+        "1": 82
+      },
+      "flags": {},
+      "order": 46,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 75
+        },
+        {
+          "name": "scale_by",
+          "type": "FLOAT",
+          "link": 72,
+          "widget": {
+            "name": "scale_by"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            110
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScaleBy"
+      },
+      "widgets_values": [
+        "area",
+        1
+      ]
+    },
+    {
+      "id": 52,
+      "type": "Image size to string",
+      "pos": [
+        2502,
+        644
+      ],
+      "size": {
+        "0": 210,
+        "1": 26
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 41,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 78,
+          "slot_index": 0
+        }
+      ],
+      "outputs": [
+        {
+          "name": "size",
+          "type": "STRING",
+          "links": [
+            158
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Image size to string"
+      }
+    },
+    {
+      "id": 51,
+      "type": "Image size to string",
+      "pos": [
+        2500,
+        726
+      ],
+      "size": {
+        "0": 210,
+        "1": 26
+      },
+      "flags": {},
+      "order": 57,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 77
+        }
+      ],
+      "outputs": [
+        {
+          "name": "size",
+          "type": "STRING",
+          "links": [
+            159
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Image size to string"
+      }
+    },
+    {
+      "id": 88,
+      "type": "Text Multiline",
+      "pos": [
+        -588,
+        1732
+      ],
+      "size": {
+        "0": 783.50146484375,
+        "1": 687.8680419921875
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            152
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Text Multiline"
+      },
+      "widgets_values": [
+        ">>>ph\nbest quality @ worst quality\n\n>>>photo\nphoto, uhd, 8k, best quality\n@worst quality, drawing, monochromatic, anime, painting\nembedding:CyberRealistic_Negative-neg.pt\n\n>>>cgi\nshiny texture, acts as 3d blender art, balancing composition between each texture, trending on ArtStation, trending on CGSociety, Intricate, High Detail, Sharp focus, dramatic, photorealistic painting art by Midjourney\n@worst quality, cartoon, blurry, grainy, badly drawn, bad composure, bad composition, 2d, pencil drawn, missing image\nembedding:CyberRealistic_Negative-neg.pt\n\n\n>>>cutbox\n3D tiny isometric of a <place> in a cutaway box\n\n\n>>>2colors\n<color> and <color> color\n\n>>>color\n[red|blue|green|yellow|purple|orange|pink|brown|black|white|gray|turquoise|lavender|teal|indigo|maroon|beige|cyan|gold|silver|ruby|emerald|sapphire|periwinkle|olive|magenta|peach|ivory|charcoal|coral|plum]\n\n\n>>>place\n[Coffee Shop|Park Bench|Subway Platform|Bus Stop|Laundromat|Bookstore Aisle|Rooftop Parking Garage|Office Cubicle|Grocery Store Aisle|Public Library|Backyard Garden|Street Corner|Playground Swing|Car Wash Bay|Gas Station Pump|Bridge Overpass|Hospital Waiting Room|Movie Theater Lobby|Shopping Mall Food Court|Beach Boardwalk|School Playground|Barber Shop Chair|Empty Classroom|Farmer's Market Stall|Airport Terminal|Elevator Lobby|Car Dealership Showroom|Fitness Center Treadmill|Post Office Counter|Rooftop Terrace|Pet Store Aisle|Bus Terminal|Rooftop Pool Deck|Bowling Alley Lane|City Bus|Art Gallery|Public Park Gazebo|Parking Lot|Street Fair Vendor Booth|Subway Carriage|University Quad|Beach Pier|Downtown Pedestrian Zone|Street Art Mural|Lakeside Dock|Public Restroom|Picnic Area|Office Lobby|Skate Park|Construction Site|Rooftop Garden|Hardware Store Aisle|DMV Waiting Area|Self-Storage Unit|Rooftop Helipad|Fast Food Restaurant Counter|Flea Market Stall|Auto Repair Shop|Rooftop Greenhouse|City Hall Courtyard|Movie Rental Store Aisle|Wine Cellar|Rooftop Tennis Court|Gas Station Garage|Rooftop Barbecue Area|Taxi Stand|Casino Floor|Apartment Balcony|Beach Volleyball Court|Rooftop Observatory|Arcade Game Room|Amusement Park Midway|Zoo Enclosure|Ice Cream Shop|RV Park|Music Store Aisle|Rooftop Lounge|Skyscraper Lobby|Shopping Mall Escalator|Food Truck|Miniature Golf Course|Rooftop Solarium|Farm Stand|Rooftop Roller Rink|Church Pew|Campground|Rooftop Biergarten|Botanical Garden|Rooftop Dance Floor|Health Food Store Aisle|Community Center Gym|Rooftop Yoga Studio|Suburban Cul-de-sac|Newsstand|Rooftop Pergola|Gas Station Convenience Store|Rooftop Playground|Historic Courthouse Steps|Drive-Thru Window|Rooftop Cinema|Zoo|Zoo gate|Sidewalk|Desert|Swimming pool|Beach|Mystery garden, fog]\n\n"
+      ]
+    },
+    {
+      "id": 61,
+      "type": "EmptyLatentImage",
+      "pos": [
+        734,
+        1154
+      ],
+      "size": {
+        "0": 315,
+        "1": 106
+      },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            95
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyLatentImage"
+      },
+      "widgets_values": [
+        512,
+        768,
+        1
+      ]
+    },
+    {
+      "id": 73,
+      "type": "Multi Text Merge",
+      "pos": [
+        551,
+        86
+      ],
+      "size": {
+        "0": 210,
+        "1": 158
+      },
+      "flags": {},
+      "order": 32,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "s1",
+          "type": "STRING",
+          "link": 133,
+          "widget": {
+            "name": "s1"
+          }
+        },
+        {
+          "name": "s2",
+          "type": "STRING",
+          "link": 134,
+          "widget": {
+            "name": "s2"
+          }
+        },
+        {
+          "name": "s3",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "s3"
+          }
+        },
+        {
+          "name": "s4",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "s4"
+          }
+        },
+        {
+          "name": "s5",
+          "type": "STRING",
+          "link": 135,
+          "widget": {
+            "name": "s5"
+          }
+        },
+        {
+          "name": "s6",
+          "type": "STRING",
+          "link": 136,
+          "widget": {
+            "name": "s6"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            137
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Multi Text Merge"
+      },
+      "widgets_values": [
+        ", ",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 87,
+      "type": "Note",
+      "pos": [
+        1368,
+        1560
+      ],
+      "size": {
+        "0": 514.4496459960938,
+        "1": 101.7145767211914
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Images will be resized (by lanczos) to keep proportion"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 94,
+      "type": "Note",
+      "pos": [
+        -328,
+        2535
+      ],
+      "size": {
+        "0": 464.9837341308594,
+        "1": 124.00586700439453
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Will load one random image from folder.\n\nSet your images folder path and unmute"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 99,
+      "type": "Note",
+      "pos": [
+        -358,
+        3064
+      ],
+      "size": {
+        "0": 464.9837341308594,
+        "1": 124.00586700439453
+      },
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Most simplest text loader. Just provide full path to text file."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 98,
+      "type": "Load Text",
+      "pos": [
+        -344,
+        3251
+      ],
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {},
+      "order": 11,
+      "mode": 2,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            161
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Load Text"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 100,
+      "type": "ShowText|pysssss",
+      "pos": [
+        133,
+        3233
+      ],
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {},
+      "order": 19,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 161,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 89,
+      "type": "Note",
+      "pos": [
+        192,
+        1335
+      ],
+      "size": {
+        "0": 514.9171752929688,
+        "1": 320.1346435546875
+      },
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Set tag by \">>>YOUR_TAG\" + lines below as content\n\nIf you set tags by tags_file (full path) then it will be used instead of tags input.\n\nYou can use tags in tags only before you define those inner tags.\n\nDon't use more that 1 negative \"@\" by tag.\n\nAll tag lines will be joined into one line by \",\""
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 65,
+      "type": "Seed",
+      "pos": [
+        -745,
+        953
+      ],
+      "size": {
+        "0": 315,
+        "1": 142
+      },
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "SEED",
+          "type": "SEED",
+          "links": [
+            138
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "number",
+          "type": "NUMBER",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "float",
+          "type": "FLOAT",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "int",
+          "type": "INT",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Seed"
+      },
+      "widgets_values": [
+        846703416317776,
+        "increment"
+      ]
+    },
+    {
+      "id": 82,
+      "type": "PreviewImage",
+      "pos": [
+        1786,
+        2167
+      ],
+      "size": {
+        "0": 210,
+        "1": 246
+      },
+      "flags": {},
+      "order": 50,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 147
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    },
+    {
+      "id": 102,
+      "type": "ShowText|pysssss",
+      "pos": [
+        260,
+        3450
+      ],
+      "size": {
+        "0": 536.4037475585938,
+        "1": 259.5770263671875
+      },
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 162,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "",
+        "POSITIVE:\norange apple, green, green, airplane car boat\n\nNEGATIVE:\n\n\nseed:665755794583930\n\nextra1:<none>\nextra2:<none>\n\nRAW:\n[2#apple|orange|banana]\n[25:red|25:yellow|500:green]\n[*25*red|*25*yellow|*500*green]\n[1-4#car|truck|boat|airplane|tank|submarine|bike]"
+      ]
+    },
+    {
+      "id": 101,
+      "type": "Prompt Parser",
+      "pos": [
+        -500,
+        3440
+      ],
+      "size": {
+        "0": 446.8169860839844,
+        "1": 304.50262451171875
+      },
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "extra1",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "extra1"
+          }
+        },
+        {
+          "name": "extra2",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "extra2"
+          }
+        },
+        {
+          "name": "tags",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "tags"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "STRING",
+          "links": [],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "negative",
+          "type": "STRING",
+          "links": [],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "debug",
+          "type": "STRING",
+          "links": [
+            162
+          ],
+          "shape": 3,
+          "slot_index": 2
+        }
+      ],
+      "title": "multiple choices test",
+      "properties": {
+        "Node name for S&R": "Prompt Parser"
+      },
+      "widgets_values": [
+        "[2#apple|orange|banana]\n[25:red|25:yellow|500:green]\n[*25*red|*25*yellow|*500*green]\n[1-4#car|truck|boat|airplane|tank|submarine|bike]",
+        "",
+        829237743739781,
+        "randomize",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 92,
+      "type": "PreviewImage",
+      "pos": [
+        -124,
+        2836
+      ],
+      "size": {
+        "0": 210,
+        "1": 26
+      },
+      "flags": {},
+      "order": 22,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 154
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    },
+    {
+      "id": 91,
+      "type": "Load Random Image",
+      "pos": [
+        -492,
+        2851
+      ],
+      "size": {
+        "0": 315,
+        "1": 150
+      },
+      "flags": {},
+      "order": 15,
+      "mode": 2,
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            154
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "file name",
+          "type": "STRING",
+          "links": [
+            155
+          ],
+          "shape": 3,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Load Random Image"
+      },
+      "widgets_values": [
+        "C:\\ComfyUI\\ComfyUI\\output",
+        "ignore",
+        7,
+        "increment"
+      ]
+    },
+    {
+      "id": 32,
+      "type": "PreviewImage",
+      "pos": [
+        1770,
+        950
+      ],
+      "size": {
+        "0": 609.8162841796875,
+        "1": 655.5281372070312
+      },
+      "flags": {},
+      "order": 39,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 54
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    },
+    {
+      "id": 104,
+      "type": "ShowText|pysssss",
+      "pos": [
+        3269,
+        352
+      ],
+      "size": {
+        "0": 315,
+        "1": 76
+      },
+      "flags": {},
+      "order": 53,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 166,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "",
+        "0.4166666666666667"
+      ]
+    },
+    {
+      "id": 97,
+      "type": "Multi Text Merge",
+      "pos": [
+        2883,
+        659
+      ],
+      "size": {
+        "0": 234.2733612060547,
+        "1": 158
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 58,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "s1",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "s1"
+          }
+        },
+        {
+          "name": "s2",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "s2"
+          }
+        },
+        {
+          "name": "s3",
+          "type": "STRING",
+          "link": 158,
+          "widget": {
+            "name": "s3"
+          }
+        },
+        {
+          "name": "s4",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "s4"
+          }
+        },
+        {
+          "name": "s5",
+          "type": "STRING",
+          "link": 159,
+          "widget": {
+            "name": "s5"
+          }
+        },
+        {
+          "name": "s6",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "s6"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            163
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Multi Text Merge"
+      },
+      "widgets_values": [
+        ", ",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 103,
+      "type": "ShowText|pysssss",
+      "pos": [
+        3256,
+        610
+      ],
+      "size": {
+        "0": 315,
+        "1": 76
+      },
+      "flags": {},
+      "order": 59,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 163,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "",
+        "512x768, 853x1280"
+      ]
+    },
+    {
+      "id": 45,
+      "type": "Calculate Upscale",
+      "pos": [
+        2453,
+        336
+      ],
+      "size": {
+        "0": 267.9018859863281,
+        "1": 102
+      },
+      "flags": {},
+      "order": 43,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 71
+        }
+      ],
+      "outputs": [
+        {
+          "name": "tile_size",
+          "type": "INT",
+          "links": null,
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "upscale",
+          "type": "FLOAT",
+          "links": [
+            72,
+            165
+          ],
+          "shape": 3,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Calculate Upscale"
+      },
+      "widgets_values": [
+        1280,
+        93
+      ]
+    },
+    {
+      "id": 105,
+      "type": "Any Converter",
+      "pos": [
+        2893,
+        318
+      ],
+      "size": {
+        "0": 210,
+        "1": 137.70846557617188
+      },
+      "flags": {},
+      "order": 47,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "number_",
+          "type": "NUMBER",
+          "link": null
+        },
+        {
+          "name": "seed_",
+          "type": "SEED",
+          "link": null
+        },
+        {
+          "name": "str_",
+          "type": "STR",
+          "link": null
+        },
+        {
+          "name": "int_",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "int_"
+          }
+        },
+        {
+          "name": "float_",
+          "type": "FLOAT",
+          "link": 165,
+          "widget": {
+            "name": "float_"
+          }
+        },
+        {
+          "name": "string_",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "string_"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "NUMBER",
+          "type": "NUMBER",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            166
+          ],
+          "shape": 3,
+          "slot_index": 3
+        },
+        {
+          "name": "SEED",
+          "type": "SEED",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "STR",
+          "type": "STR",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Any Converter"
+      },
+      "widgets_values": [
+        0,
+        0,
+        ""
+      ]
+    },
+    {
+      "id": 72,
+      "type": "Prompt Parser",
+      "pos": [
+        1130,
+        -75
+      ],
+      "size": {
+        "0": 614.8214111328125,
+        "1": 902.8557739257812
+      },
+      "flags": {},
+      "order": 33,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "extra1",
+          "type": "STRING",
+          "link": 137,
+          "widget": {
+            "name": "extra1"
+          }
+        },
+        {
+          "name": "extra2",
+          "type": "STRING",
+          "link": 127,
+          "widget": {
+            "name": "extra2"
+          }
+        },
+        {
+          "name": "tags",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "tags"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "STRING",
+          "links": [
+            128
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "negative",
+          "type": "STRING",
+          "links": [
+            129
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "debug",
+          "type": "STRING",
+          "links": [
+            167
+          ],
+          "shape": 3,
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Prompt Parser"
+      },
+      "widgets_values": [
+        "[town|city] full of [[fast|slow] [cars|[bicycles|motorbikes]]|[[loud|cute] [horses|[ducks|chickens]]]]\n\n\nisometric [[*10*pink|blue] bedroom*25*|city at [day|night] with [cars|*100*trains|rockets*300*]], , \n\n\n, ,,,,\n\n\n! ignored positive prompt\n! @ ignored negative prompt\n\n[*20*fantasy | *20*cyberpunk | *20*alien | *300*futuristic]\n\nhighly detailed, render_with_blender\n\n\n\n?cutaway box\n\n?20% (explosion:1.2)\n\n<extra2>\n  \n3d render cgi @ drawing painting anime cartoon\n\n@ (low quality:1.4), (worst quality:1.4)\n\n\n^\n\neverything after ^ as first in line\nwill\nbe\nignored",
+        "",
+        52838055762447,
+        "randomize",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 106,
+      "type": "ShowText|pysssss",
+      "pos": [
+        1780,
+        160
+      ],
+      "size": [
+        591.2234568716453,
+        664.3717366140057
+      ],
+      "flags": {},
+      "order": 36,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 167,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "",
+        "POSITIVE:\ncreepy, style1POS, rain, city full of slow cars, isometric blue bedroom, futuristic, highly detailed, render_with_blender, 3d render cgi\n\nNEGATIVE:\nstyle1NEG, style2POS, style2NEG1, style2NEG2, mars, embedding:CyberRealistic_Negative-neg, drawing painting anime cartoon, (low quality:1.4), (worst quality:1.4)\n\nseed:191659361930929\n\nextra1:[scary|creepy], style1POS @ style1NEG, style2POS\n@ style2NEG1, style2NEG2, mars\nrain\nextra2:@em:CyberRealistic_Negative-neg\n!@em:ng_deepnegative_v1_75t\n\nRAW:\n[scary|creepy], style1POS @ style1NEG, style2POS\n@ style2NEG1, style2NEG2, mars\nrain, [town|city] full of [[fast|slow] [cars|[bicycles|motorbikes]]|[[loud|cute] [horses|[ducks|chickens]]]]\n\n\nisometric [[*10*pink|blue] bedroom*25*|city at [day|night] with [cars|*100*trains|rockets*300*]], , \n\n\n, ,,,,\n\n\n! ignored positive prompt\n! @ ignored negative prompt\n\n[*20*fantasy | *20*cyberpunk | *20*alien | *300*futuristic]\n\nhighly detailed, render_with_blender\n\n\n\n?cutaway box\n\n?20% (explosion:1.2)\n\n@em:CyberRealistic_Negative-neg\n!@em:ng_deepnegative_v1_75t\n  \n3d render cgi @ drawing painting anime cartoon\n\n@ (low quality:1.4), (worst quality:1.4)\n\n\n^\n\neverything after ^ as first in line\nwill\nbe\nignored"
+      ]
+    },
+    {
+      "id": 67,
+      "type": "Note",
+      "pos": [
+        1833,
+        -6
+      ],
+      "size": {
+        "0": 514.4496459960938,
+        "1": 101.7145767211914
+      },
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "This workflow is using ComfyUI-Custom-Scripts also\nhttps://github.com/pythongosssss/ComfyUI-Custom-Scripts"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 83,
+      "type": "Image size to string",
+      "pos": [
+        1315,
+        1903
+      ],
+      "size": {
+        "0": 168,
+        "1": 26
+      },
+      "flags": {},
+      "order": 49,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 148
+        }
+      ],
+      "outputs": [
+        {
+          "name": "size",
+          "type": "STRING",
+          "links": [
+            168
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Image size to string"
+      }
+    },
+    {
+      "id": 107,
+      "type": "ShowText|pysssss",
+      "pos": [
+        1318,
+        1987
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 54,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 168,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "",
+        "240x360"
+      ]
+    },
+    {
+      "id": 85,
+      "type": "Image size to string",
+      "pos": [
+        1758,
+        1902
+      ],
+      "size": {
+        "0": 168,
+        "1": 26
+      },
+      "flags": {},
+      "order": 51,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 151
+        }
+      ],
+      "outputs": [
+        {
+          "name": "size",
+          "type": "STRING",
+          "links": [
+            169
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Image size to string"
+      }
+    },
+    {
+      "id": 108,
+      "type": "ShowText|pysssss",
+      "pos": [
+        1760,
+        1983
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 55,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 169,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "",
+        "360x540"
+      ]
+    },
+    {
+      "id": 43,
+      "type": "Random Line 4",
+      "pos": [
+        -98,
+        -312
+      ],
+      "size": {
+        "0": 261.4070129394531,
+        "1": 293.948486328125
+      },
+      "flags": {},
+      "order": 28,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "seed",
+          "type": "INT",
+          "link": 117,
+          "widget": {
+            "name": "seed"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            136,
+            170
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Random Line 4"
+      },
+      "widgets_values": [
+        "mars\nearth\nvenus",
+        "",
+        "rain\nsunny",
+        "",
+        991030680243737,
+        "randomize",
+        "\\n"
+      ]
+    },
+    {
+      "id": 109,
+      "type": "ShowText|pysssss",
+      "pos": [
+        493,
+        -296
+      ],
+      "size": [
+        315,
+        76
+      ],
+      "flags": {},
+      "order": 31,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 170,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "",
+        "mars\nrain"
+      ]
+    },
+    {
+      "id": 75,
+      "type": "ShowText|pysssss",
+      "pos": [
+        0,
+        857
+      ],
+      "size": {
+        "0": 315,
+        "1": 82
+      },
+      "flags": {},
+      "order": 27,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 141,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        [
+          "846703416317766"
+        ],
+        "846703416317775"
+      ]
+    },
+    {
+      "id": 96,
+      "type": "ShowText|pysssss",
+      "pos": [
+        -345,
+        1285
+      ],
+      "size": {
+        "0": 315,
+        "1": 82
+      },
+      "flags": {},
+      "order": 30,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 157,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        [
+          "846703416317766.0"
+        ],
+        "846703416317775.0"
+      ]
+    },
+    {
+      "id": 60,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        13,
+        1071
+      ],
+      "size": {
+        "0": 437.35968017578125,
+        "1": 98
+      },
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            93
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            88,
+            89
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            92
+          ],
+          "shape": 3,
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "SD15\\icbinpICantBelieveIts_final.safetensors"
+      ]
+    },
+    {
+      "id": 49,
+      "type": "PreviewImage",
+      "pos": [
+        2449,
+        939
+      ],
+      "size": {
+        "0": 830.8914184570312,
+        "1": 864.346435546875
+      },
+      "flags": {},
+      "order": 56,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 74
+        }
+      ],
+      "title": "upscaled",
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    }
+  ],
+  "links": [
+    [
+      52,
+      30,
+      0,
+      31,
+      0,
+      "LATENT"
+    ],
+    [
+      54,
+      31,
+      0,
+      32,
+      0,
+      "IMAGE"
+    ],
+    [
+      69,
+      47,
+      0,
+      46,
+      0,
+      "UPSCALE_MODEL"
+    ],
+    [
+      70,
+      31,
+      0,
+      46,
+      1,
+      "IMAGE"
+    ],
+    [
+      71,
+      46,
+      0,
+      45,
+      0,
+      "IMAGE"
+    ],
+    [
+      72,
+      45,
+      1,
+      48,
+      1,
+      "FLOAT"
+    ],
+    [
+      74,
+      50,
+      0,
+      49,
+      0,
+      "IMAGE"
+    ],
+    [
+      75,
+      46,
+      0,
+      48,
+      0,
+      "IMAGE"
+    ],
+    [
+      77,
+      50,
+      0,
+      51,
+      0,
+      "IMAGE"
+    ],
+    [
+      78,
+      31,
+      0,
+      52,
+      0,
+      "IMAGE"
+    ],
+    [
+      88,
+      60,
+      1,
+      58,
+      0,
+      "CLIP"
+    ],
+    [
+      89,
+      60,
+      1,
+      59,
+      0,
+      "CLIP"
+    ],
+    [
+      90,
+      59,
+      0,
+      30,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      91,
+      58,
+      0,
+      30,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      92,
+      60,
+      2,
+      31,
+      1,
+      "VAE"
+    ],
+    [
+      93,
+      60,
+      0,
+      30,
+      0,
+      "MODEL"
+    ],
+    [
+      95,
+      61,
+      0,
+      30,
+      3,
+      "LATENT"
+    ],
+    [
+      110,
+      48,
+      0,
+      50,
+      0,
+      "*"
+    ],
+    [
+      117,
+      62,
+      0,
+      43,
+      0,
+      "INT"
+    ],
+    [
+      118,
+      62,
+      0,
+      37,
+      0,
+      "INT"
+    ],
+    [
+      127,
+      39,
+      0,
+      72,
+      1,
+      "STRING"
+    ],
+    [
+      128,
+      72,
+      0,
+      58,
+      1,
+      "STRING"
+    ],
+    [
+      129,
+      72,
+      1,
+      59,
+      1,
+      "STRING"
+    ],
+    [
+      133,
+      37,
+      0,
+      73,
+      0,
+      "STRING"
+    ],
+    [
+      134,
+      40,
+      0,
+      73,
+      1,
+      "STRING"
+    ],
+    [
+      135,
+      42,
+      0,
+      73,
+      4,
+      "STRING"
+    ],
+    [
+      136,
+      43,
+      0,
+      73,
+      5,
+      "STRING"
+    ],
+    [
+      137,
+      73,
+      0,
+      72,
+      0,
+      "STRING"
+    ],
+    [
+      138,
+      65,
+      0,
+      74,
+      1,
+      "SEED"
+    ],
+    [
+      139,
+      74,
+      0,
+      62,
+      0,
+      "*"
+    ],
+    [
+      140,
+      74,
+      0,
+      30,
+      4,
+      "INT"
+    ],
+    [
+      141,
+      74,
+      3,
+      75,
+      0,
+      "STRING"
+    ],
+    [
+      143,
+      31,
+      0,
+      79,
+      0,
+      "*"
+    ],
+    [
+      144,
+      79,
+      0,
+      77,
+      0,
+      "IMAGE"
+    ],
+    [
+      145,
+      79,
+      0,
+      80,
+      0,
+      "IMAGE"
+    ],
+    [
+      146,
+      77,
+      0,
+      81,
+      0,
+      "IMAGE"
+    ],
+    [
+      147,
+      80,
+      0,
+      82,
+      0,
+      "IMAGE"
+    ],
+    [
+      148,
+      77,
+      0,
+      83,
+      0,
+      "IMAGE"
+    ],
+    [
+      151,
+      80,
+      0,
+      85,
+      0,
+      "IMAGE"
+    ],
+    [
+      152,
+      88,
+      0,
+      76,
+      2,
+      "STRING"
+    ],
+    [
+      153,
+      76,
+      2,
+      90,
+      0,
+      "STRING"
+    ],
+    [
+      154,
+      91,
+      0,
+      92,
+      0,
+      "IMAGE"
+    ],
+    [
+      155,
+      91,
+      1,
+      93,
+      0,
+      "STRING"
+    ],
+    [
+      156,
+      74,
+      1,
+      95,
+      4,
+      "FLOAT"
+    ],
+    [
+      157,
+      95,
+      3,
+      96,
+      0,
+      "STRING"
+    ],
+    [
+      158,
+      52,
+      0,
+      97,
+      2,
+      "STRING"
+    ],
+    [
+      159,
+      51,
+      0,
+      97,
+      4,
+      "STRING"
+    ],
+    [
+      161,
+      98,
+      0,
+      100,
+      0,
+      "STRING"
+    ],
+    [
+      162,
+      101,
+      2,
+      102,
+      0,
+      "STRING"
+    ],
+    [
+      163,
+      97,
+      0,
+      103,
+      0,
+      "STRING"
+    ],
+    [
+      165,
+      45,
+      1,
+      105,
+      4,
+      "FLOAT"
+    ],
+    [
+      166,
+      105,
+      3,
+      104,
+      0,
+      "STRING"
+    ],
+    [
+      167,
+      72,
+      2,
+      106,
+      0,
+      "STRING"
+    ],
+    [
+      168,
+      83,
+      0,
+      107,
+      0,
+      "STRING"
+    ],
+    [
+      169,
+      85,
+      0,
+      108,
+      0,
+      "STRING"
+    ],
+    [
+      170,
+      43,
+      0,
+      109,
+      0,
+      "STRING"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.9229599817706746,
+      "offset": [
+        -1336.689652710271,
+        -870.7582999851779
+      ]
+    }
+  },
+  "version": 0.4
+}
