@@ -262,11 +262,16 @@ class PromptParser:
     # "I went there with [a [fast|slow] [car|[boat|yaht]]|an [expensive|cheap] [car|[boat|yaht]]]"
     # [[*10*pink|blue] bedroom*100*|city at [day|night] with [cars|trains|rockets]]
     # [*150*car|boat*30*|bi*80*ke]
-    def select_random(self, text):
+    def select_random(self, text, seed):
         def random_choice(match):
-            
-            num_choices, options_str = match.groups()
+            use_seed, num_choices, options_str = match.groups()
             n = 1
+
+            # Use [!...] to force the use of seed
+            if use_seed:
+                np_seed = seed % (2**32)
+                np.random.seed(np_seed)
+
             if num_choices:
                 # Randomly select between n-m choices
                 if '-' in num_choices:
@@ -275,11 +280,11 @@ class PromptParser:
                 # Randomly select n choices
                 else:
                     n = int(num_choices)
-            
+
             options = options_str.split('|')
             return ' '.join(self.randomly_select_string_with_weight(options, n))
 
-        pattern = r'\[(?:(\d+-\d+|\d*)#)?([^\[\]]+)\]'
+        pattern = r'\[(!)?(?:(\d+-\d+|\d*)#)?([^\[\]]+)\]'
 
         while re.search(pattern, text):
             text = re.sub(pattern, random_choice, text)
@@ -323,7 +328,7 @@ class PromptParser:
 
         prompt = prompt.replace("em:", "embedding:")
 
-        prompt = self.select_random(prompt)
+        prompt = self.select_random(prompt, seed=seed)
 
         result = self.parse(prompt)
 
