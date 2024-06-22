@@ -65,7 +65,9 @@ To adjust the chances of selecting each element separately, assign weights using
 ```
 [*150*car|*30*boat|train|*80*bike]
 ```
-alternative weight: pattern ```[150:car|30:boat|train|80:bike]```
+
+Alternative weight pattern - ```[150:car|30:boat|train|80:bike]```
+
 If a weight is not specified for an element, the default weight of 100 will be used. Weights can be placed anywhere within the elements.
 
 This also works with nested elements:
