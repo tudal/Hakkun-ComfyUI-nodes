@@ -12,7 +12,8 @@ import os
 TEXT_TYPE = "STRING"
 INT_TYPE = "INT"
 IMAGE_TYPE = "IMAGE"
-UND='undefined'
+UND = 'undefined'
+
 
 def get_random_line(text, seed):
     if isEmpty(text):
@@ -22,6 +23,7 @@ def get_random_line(text, seed):
     random.seed(seed)
     random_line = random.choice(lines)
     return random_line
+
 
 class MultiTextMerge:
     def __init__(self):
@@ -50,10 +52,11 @@ class MultiTextMerge:
 
     def concatenate_strings(self, s1='', s2='', s3='', s4='', s5='', s6='', delimiter="_"):
         delimiter = delimiter.replace("\\n", "\n")
-        strings=[s1, s2, s3, s4, s5, s6]
+        strings = [s1, s2, s3, s4, s5, s6]
         strings = [s for s in strings if isOk(s)]
         concatenated_string = delimiter.join(strings)
         return concatenated_string,
+
 
 class RandomLine:
     def __init__(self):
@@ -109,16 +112,21 @@ class RandomLine4:
         random.seed(seed)
 
         texts = []
-        if isOk(text1): texts.append(get_random_line(text1,seed))
-        if isOk(text2): texts.append(get_random_line(text2,seed))
-        if isOk(text3): texts.append(get_random_line(text3,seed))
-        if isOk(text4): texts.append(get_random_line(text4,seed))
+        if isOk(text1):
+            texts.append(get_random_line(text1, seed))
+        if isOk(text2):
+            texts.append(get_random_line(text2, seed))
+        if isOk(text3):
+            texts.append(get_random_line(text3, seed))
+        if isOk(text4):
+            texts.append(get_random_line(text4, seed))
 
         delimiter = delimiter.replace("\\n", "\n")
 
         text = delimiter.join(texts)
 
         return text,
+
 
 class PromptParser:
     def __init__(self):
@@ -139,8 +147,8 @@ class PromptParser:
             }
         }
 
-    RETURN_TYPES = (TEXT_TYPE,TEXT_TYPE,TEXT_TYPE)
-    RETURN_NAMES = ("positive","negative","debug")
+    RETURN_TYPES = (TEXT_TYPE, TEXT_TYPE, TEXT_TYPE)
+    RETURN_NAMES = ("positive", "negative", "debug")
     FUNCTION = "parse_prompt"
 
     CATEGORY = "Hakkun"
@@ -227,10 +235,10 @@ class PromptParser:
         return result
 
     def randomly_select_string_with_weight(self, arr, n, seed):
-        weights = []        
+        weights = []
         strings_without_weight = []
         weight_pattern = r'(\*(\d+)\*|\d+:)'
-        
+
         for string in arr:
             match = re.search(weight_pattern, string)
             if match:
@@ -248,19 +256,20 @@ class PromptParser:
                 # If no weight pattern is found, consider weight as 1
                 weights.append(100)
                 strings_without_weight.append(string)
-        
+
         total_weight = sum(weights)
         normalized_weights = [w/total_weight for w in weights]
-        
+
         # Select no more than the number of strings available
         if n > len(strings_without_weight):
             n = len(strings_without_weight)
-        
+
         # Use [!...] to force the use of seed inside bracket
         np_seed = seed % (2**32)
         rng = np.random.default_rng(np_seed)
-                            
-        selected_string = rng.choice(strings_without_weight, n,  p=normalized_weights, replace=False)
+
+        selected_string = rng.choice(
+            strings_without_weight, n,  p=normalized_weights, replace=False)
         return selected_string
 
     # "I went there with [a [fast|slow] [car|[boat|yaht]]|an [expensive|cheap] [car|[boat|yaht]]]"
@@ -282,7 +291,8 @@ class PromptParser:
 
             options = options_str.split('|')
 
-            arr_seed = seed_container[0]
+            # If [!...], freeze the value by always using the same seed
+            arr_seed = seed if freeze_value else seed_container[0]
             seed_container[0] += 1
 
             return ' '.join(self.randomly_select_string_with_weight(options, n, arr_seed))
@@ -304,7 +314,7 @@ class PromptParser:
             return text
         if placeholder in text:
             return text.replace(placeholder, extra)
-        return extra +', '+ text
+        return extra + ', ' + text
 
     def fix_commas(self, text):
         elements = text.split(",")
@@ -338,7 +348,7 @@ class PromptParser:
         result[0] = self.fix_commas(result[0])
         result[1] = self.fix_commas(result[1])
 
-        return  (
+        return (
             result[0],
             result[1],
             'POSITIVE:\n' + result[0] +
@@ -350,10 +360,13 @@ class PromptParser:
         )
 
 # Tensor to PIL
+
+
 def tensor2pil(image):
     # Assuming image is a 4D tensor with shape (1, 1, height, width)
     image = image.squeeze(0)  # Remove the batch dimension
     return Image.fromarray(np.clip(255. * image.cpu().numpy(), 0, 255).astype(np.uint8))
+
 
 class CalculateUpscale:
     def __init__(self):
@@ -370,7 +383,7 @@ class CalculateUpscale:
         }
 
     RETURN_TYPES = (INT_TYPE, "FLOAT")
-    RETURN_NAMES = ("tile_size","upscale")
+    RETURN_NAMES = ("tile_size", "upscale")
     FUNCTION = "calculate"
 
     CATEGORY = "Hakkun"
@@ -384,9 +397,10 @@ class CalculateUpscale:
 
         upscaled_width = img_width * upscale
 
-        tile_size=upscaled_width/tiles_in_x
+        tile_size = upscaled_width/tiles_in_x
 
         return tile_size, upscale
+
 
 class ImageResizeToWidth:
     def __init__(self):
@@ -413,6 +427,7 @@ class ImageResizeToWidth:
         scale_by = target_width/img_width
         return upscale(image, 'lanczos', scale_by)
 
+
 class ImageResizeToHeight:
     def __init__(self):
         pass
@@ -438,12 +453,14 @@ class ImageResizeToHeight:
         scale_by = target_height/img_height
         return upscale(image, 'lanczos', scale_by)
 
+
 def upscale(image, upscale_method, scale_by):
-    samples = image.movedim(-1,1)
+    samples = image.movedim(-1, 1)
     width = round(samples.shape[3] * scale_by)
     height = round(samples.shape[2] * scale_by)
-    s = comfy.utils.common_upscale(samples, width, height, upscale_method, "disabled")
-    s = s.movedim(1,-1)
+    s = comfy.utils.common_upscale(
+        samples, width, height, upscale_method, "disabled")
+    s = s.movedim(1, -1)
     return (s,)
 
 
@@ -473,6 +490,7 @@ class ImageSizeToString:
         size = str(img_width)+'x'+str(img_height)
 
         return size,
+
 
 class AnyConverter:
     def __init__(self):
@@ -510,25 +528,25 @@ class AnyConverter:
 
     def convert(self, int_=None, float_=None, number_=None, string_=None, seed_=None, str_=None):
         if isOk(str_):
-            string_=str_
+            string_ = str_
         if isOk(int_):
-            value=int_
+            value = int_
         elif isOk(float_):
-            value=float_
+            value = float_
         elif isOk(number_):
-            value=number_
+            value = number_
         elif isOk(string_):
             return (self.string_to_int(string_),
                     self.string_to_number(string_),
                     self.string_to_number(string_),
                     string_,
-                    {"seed":self.string_to_int(string_), },
+                    {"seed": self.string_to_int(string_), },
                     string_,)
         elif isOk(seed_):
-            value=seed_.get('seed')
+            value = seed_.get('seed')
         else:
-            value=0
-        return int(value),float(value),float(value),str(value),{"seed":int(value), }
+            value = 0
+        return int(value), float(value), float(value), str(value), {"seed": int(value), }
 
 
 def multiline_string_to_dict(input_string):
@@ -544,12 +562,12 @@ def multiline_string_to_dict(input_string):
                 result_dict[current_key] = current_value
             current_key = line[3:]
             current_value = ""
-        elif current_value=="":
+        elif current_value == "":
             current_value = line.strip()
         else:
             current_value += ', ' + line.strip()
 
-    #for key, value in result_dict.items():
+    # for key, value in result_dict.items():
         # result_dict[key] = remove_trailing_newline(value)
 
     # Add the last key and value to the dictionary
@@ -558,21 +576,27 @@ def multiline_string_to_dict(input_string):
 
     return result_dict
 
+
 def replace_placeholders(input_string, dictionary):
     for key, value in dictionary.items():
         placeholder = f'<{key}>'
         input_string = input_string.replace(placeholder, value)
     return input_string
 
+
 def remove_empty_lines(input_string):
     lines = input_string.split('\n')  # Split the input string into lines
-    non_empty_lines = [line for line in lines if line.strip()]  # Filter out lines with only whitespace
-    return '\n'.join(non_empty_lines)  # Join the non-empty lines back into a string
+    # Filter out lines with only whitespace
+    non_empty_lines = [line for line in lines if line.strip()]
+    # Join the non-empty lines back into a string
+    return '\n'.join(non_empty_lines)
+
 
 def remove_trailing_newline(input_string):
     while input_string.endswith('\n'):
         input_string = input_string[:-1]
     return input_string
+
 
 class LoadRandomImage:
     @classmethod
@@ -585,15 +609,16 @@ class LoadRandomImage:
             },
         }
 
-    RETURN_TYPES = (IMAGE_TYPE,TEXT_TYPE)
-    RETURN_NAMES = ("image","file name")
+    RETURN_TYPES = (IMAGE_TYPE, TEXT_TYPE)
+    RETURN_NAMES = ("image", "file name")
     FUNCTION = "load_images"
 
     CATEGORY = "Hakkun"
 
     def load_images(self, directory: str, subdirectories: str, seed):
         if not os.path.isdir(directory):
-            raise FileNotFoundError(f"Directory '{directory} cannot be found.'")
+            raise FileNotFoundError(
+                f"Directory '{directory} cannot be found.'")
 
         # Function to recursively find files in subdirectories
         def find_files_in_dir(directory, subdirectories):
@@ -601,18 +626,21 @@ class LoadRandomImage:
             if subdirectories == "include":
                 dir_files = []
                 for root, dirs, files in os.walk(directory):
-                    dir_files += [os.path.join(root, f) for f in files if any(f.lower().endswith(ext) for ext in valid_extensions)]
+                    dir_files += [os.path.join(root, f) for f in files if any(
+                        f.lower().endswith(ext) for ext in valid_extensions)]
             else:
-                dir_files = [os.path.join(directory, f) for f in os.listdir(directory) if any(f.lower().endswith(ext) for ext in valid_extensions)]
+                dir_files = [os.path.join(directory, f) for f in os.listdir(
+                    directory) if any(f.lower().endswith(ext) for ext in valid_extensions)]
             return dir_files
-        
+
         dir_files = find_files_in_dir(directory, subdirectories)
 
         if not dir_files:
-            raise FileNotFoundError(f"No valid image files in directory '{directory}'.")
+            raise FileNotFoundError(
+                f"No valid image files in directory '{directory}'.")
 
         dir_files = sorted(dir_files)
-        
+
         random.seed(seed)
         random_index = random.randint(0, len(dir_files) - 1)
         image_path = dir_files[random_index]
@@ -625,7 +653,8 @@ class LoadRandomImage:
 
         file_name = get_file_name_without_extension(image_path)
 
-        return (image ,file_name)
+        return (image, file_name)
+
 
 class LoadText:
     def __init__(self):
@@ -647,34 +676,42 @@ class LoadText:
     def load_file(self, file_path=''):
         return (load_text(file_path),)
 
+
 def load_text(file_path=''):
     with open(file_path, 'r', encoding="utf-8", newline='\n') as file:
         text = file.read()
     lines = []
     for line in io.StringIO(text):
         if not line.strip().startswith('#'):
-            if ( not line.strip().startswith("\n")
+            if (not line.strip().startswith("\n")
                     or not line.strip().startswith("\r")
-                    or not line.strip().startswith("\r\n") ):
-                line = line.replace("\n", '').replace("\r",'').replace("\r\n",'')
-            lines.append(line.replace("\n",'').replace("\r",'').replace("\r\n",''))
+                    or not line.strip().startswith("\r\n")):
+                line = line.replace("\n", '').replace(
+                    "\r", '').replace("\r\n", '')
+            lines.append(line.replace("\n", '').replace(
+                "\r", '').replace("\r\n", ''))
     return "\n".join(lines)
+
 
 def remove_comments(string):
     pattern = r"/\*.*?\*/"
     modified_string = re.sub(pattern, "", string)
     return modified_string
 
+
 def get_file_name_without_extension(file_path):
     file_name_with_extension = os.path.basename(file_path)
     file_name, _ = os.path.splitext(file_name_with_extension)
     return file_name
 
+
 def isEmpty(value):
     return value is None or (isinstance(value, str) and value == "")
 
+
 def isOk(value):
     return not isEmpty(value)
+
 
 NODE_CLASS_MAPPINGS = {
     "Multi Text Merge": MultiTextMerge,
