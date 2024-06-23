@@ -234,7 +234,7 @@ class PromptParser:
         result = re.sub(pattern, self.replace_random, input)
         return result
 
-    def randomly_select_string_with_weight(self, arr, n, seed, replace):
+    def randomly_select_string_with_weight(self, arr, n, seed):
         weights = []
         strings_without_weight = []
         weight_pattern = r'(\*(\d+)\*|\d+:)'
@@ -259,17 +259,17 @@ class PromptParser:
 
         total_weight = sum(weights)
         normalized_weights = [w/total_weight for w in weights]
-
-        # Select no more than the number of strings available (if no [&...] is present)
-        if n > len(strings_without_weight) and not replace:
+       
+        # Select no more than the number of strings available
+        if n > len(strings_without_weight):
             n = len(strings_without_weight)
-        
+       
         # If no seed is set (so, if [?...] is used), use a new random seed        
         np_seed = seed % (2**32) if seed else None
         rng = np.random.default_rng(np_seed)
 
         selected_string = rng.choice(
-            strings_without_weight, n,  p=normalized_weights, replace=replace)
+            strings_without_weight, n,  p=normalized_weights, replace=False)
         return selected_string
 
     # "I went there with [a [fast|slow] [car|[boat|yaht]]|an [expensive|cheap] [car|[boat|yaht]]]"
@@ -279,8 +279,7 @@ class PromptParser:
         seed_container = [int(seed)]
 
         def random_choice(match):
-            randomize_policy, replace, num_choices, options_str = match.groups()
-            replace = True if replace else False
+            randomize_policy, num_choices, options_str = match.groups()
             n = 1
 
             if num_choices:
@@ -307,9 +306,9 @@ class PromptParser:
             
             seed_container[0] += 1
 
-            return ' '.join(self.randomly_select_string_with_weight(options, n, arr_seed, replace))
+            return ' '.join(self.randomly_select_string_with_weight(options, n, arr_seed))
 
-        pattern = r'\[([!?])?(&)?(?:(\d+-\d+|\d*)#)?([^\[\]]+)\]'
+        pattern = r'\[([!?])?(?:(\d+-\d+|\d*)#)?([^\[\]]+)\]'
 
         while re.search(pattern, text):
             text = re.sub(pattern, lambda match: random_choice(match), text)
