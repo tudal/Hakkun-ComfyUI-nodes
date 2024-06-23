@@ -230,7 +230,7 @@ class PromptParser:
         weights = []        
         strings_without_weight = []
         weight_pattern = r'(\*(\d+)\*|\d+:)'
-
+        
         for string in arr:
             match = re.search(weight_pattern, string)
             if match:
@@ -257,42 +257,40 @@ class PromptParser:
             n = len(strings_without_weight)
         
         # Use [!...] to force the use of seed inside bracket
-        if seed:
-            np_seed = seed % (2**32)
-            rng = np.random.default_rng(np_seed)
-            choice_function = rng.choice
-            random.seed(seed)
-        else:
-            choice_function = np.random.choice
-                
-        selected_string = choice_function(strings_without_weight, n,  p=normalized_weights, replace=False)
+        np_seed = seed % (2**32)
+        rng = np.random.default_rng(np_seed)
+                            
+        selected_string = rng.choice(strings_without_weight, n,  p=normalized_weights, replace=False)
         return selected_string
 
     # "I went there with [a [fast|slow] [car|[boat|yaht]]|an [expensive|cheap] [car|[boat|yaht]]]"
     # [[*10*pink|blue] bedroom*100*|city at [day|night] with [cars|trains|rockets]]
     # [*150*car|boat*30*|bi*80*ke]
     def select_random(self, text, seed):
+        seed_container = [int(seed)]
+
         def random_choice(match):
-            use_seed, num_choices, options_str = match.groups()
+            freeze_value, num_choices, options_str = match.groups()
             n = 1
-              
+
             if num_choices:
-                # Randomly select between n-m choices
                 if '-' in num_choices:
                     start, end = map(int, num_choices.split('-'))
                     n = random.randint(start, end)
-                # Randomly select n choices
                 else:
                     n = int(num_choices)
 
             options = options_str.split('|')
-            arr_seed = int(seed) if use_seed else None
+
+            arr_seed = seed_container[0]
+            seed_container[0] += 1
+
             return ' '.join(self.randomly_select_string_with_weight(options, n, arr_seed))
 
         pattern = r'\[(!)?(?:(\d+-\d+|\d*)#)?([^\[\]]+)\]'
 
         while re.search(pattern, text):
-            text = re.sub(pattern, random_choice, text)
+            text = re.sub(pattern, lambda match: random_choice(match), text)
 
         return text
 
