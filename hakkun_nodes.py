@@ -263,8 +263,9 @@ class PromptParser:
         # Select no more than the number of strings available (if no [&...] is present)
         if n > len(strings_without_weight) and not replace:
             n = len(strings_without_weight)
-
-        np_seed = seed % (2**32)
+        
+        # If no seed is set (so, if [?...] is used), use a new random seed        
+        np_seed = seed % (2**32) if seed else None
         rng = np.random.default_rng(np_seed)
 
         selected_string = rng.choice(
@@ -278,7 +279,7 @@ class PromptParser:
         seed_container = [int(seed)]
 
         def random_choice(match):
-            freeze_value, replace, num_choices, options_str = match.groups()
+            randomize_policy, replace, num_choices, options_str = match.groups()
             replace = True if replace else False
             n = 1
 
@@ -291,13 +292,24 @@ class PromptParser:
 
             options = options_str.split('|')
 
-            # If [!...], freeze the value by always using the same seed
-            arr_seed = seed if freeze_value else seed_container[0]
+            if randomize_policy == '!':
+                # Freeze the value by always using the same seed
+                # E.g. [foo|bar|baz],[foo|bar|baz] -> foo,foo
+                arr_seed = seed
+            elif randomize_policy == '?':
+                # Completly randomize the value
+                # Value will change even across multiple calls 
+                arr_seed = None
+            else:
+                # Randomize the value according to the seed
+                # E.g. [foo|bar|baz],[foo|bar|baz] -> foo,bar
+                arr_seed = seed_container[0]
+            
             seed_container[0] += 1
 
             return ' '.join(self.randomly_select_string_with_weight(options, n, arr_seed, replace))
 
-        pattern = r'\[(!)?(&)?(?:(\d+-\d+|\d*)#)?([^\[\]]+)\]'
+        pattern = r'\[([!?])?(&)?(?:(\d+-\d+|\d*)#)?([^\[\]]+)\]'
 
         while re.search(pattern, text):
             text = re.sub(pattern, lambda match: random_choice(match), text)
