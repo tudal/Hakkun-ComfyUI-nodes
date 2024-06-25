@@ -306,6 +306,8 @@ class PromptParser:
 
     def parse_prompt(self, prompt, tags_file, seed, extra1=None, extra2=None, tags=None):
         random.seed(seed)
+        np_seed = seed % 2**32
+        np.random.seed(np_seed)
         if isOk(tags_file):
             tags = load_text(tags_file)
 
