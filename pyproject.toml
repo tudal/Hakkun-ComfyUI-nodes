@@ -1,6 +1,6 @@
 [project]
 name = "hakkun-comfyui-nodes"
-description = "Nodes: Prompt parser. ComfyUI extra nodes. Mostly prompt parsing."
+description = "Mainly its prompt generating by custom syntax. Prompt Parser, Prompt tags, Random Line, Calculate Upscale, Image size to string, Type Converter, Image Resize To Height/Width, Load Random Image, Load Text"
 version = "1.0.0"
 license = "LICENSE"
 
@@ -9,6 +9,6 @@ Repository = "https://github.com/tudal/Hakkun-ComfyUI-nodes"
 #  Used by Comfy Registry https://comfyregistry.org
 
 [tool.comfy]
-PublisherId = ""
+PublisherId = "hakkunn"
 DisplayName = "Hakkun-ComfyUI-nodes"
 Icon = ""
